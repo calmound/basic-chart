@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import { Form, Select } from '@osui/ui';
 // @ts-ignore
-import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
+// import {FilterQuery} from 'components/Filters'
 // @ts-ignore
-import Parse from 'proxima-sdk/lib/Parse';
+// import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
 // @ts-ignore
-import { CustomField } from 'proxima-sdk/schema';
+// import Parse from 'proxima-sdk/lib/Parse';
+// @ts-ignore
+// import { CustomField } from 'proxima-sdk/schema';
 
 // const TYPE_LIST = [
 //   {
@@ -32,6 +34,7 @@ const Option = () => {
           </Select>
         </Form.Item>
       </Form>
+      {/* <FilterQuery /> */}
     </div>
   );
 };
