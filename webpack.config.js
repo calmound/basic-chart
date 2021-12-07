@@ -114,8 +114,8 @@ module.exports = (cliEnv = {}, argv) => {
     //   // bar: './components/bar-chart',
     // },
     entry: isProd || isDebug ? {
-      pie: './src/components/pie-chart',
-      bar: './src/components/bar-chart',
+      'basic-pie-chart': './src/components/pie-chart',
+      'basic-bar-chart': './src/components/bar-chart',
     } : './src/index.tsx',
     mode: isProd ? 'production' : 'development',
     output: outputConfig(isProd),
