@@ -17,7 +17,7 @@ import { CustomField as CustomFieldProps } from 'proxima-sdk/schema/types/models
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
 
 import { BASIC_PIE_CHART, BASIC_TABLE_CHART, CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
-import { ConfigProps } from '../lib/type';
+import { ConfigProps, GroupValue } from '../lib/type';
 const { TextArea } = Input;
 
 const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
@@ -72,9 +72,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
 
   const initialValues = {
     type: type || BASIC_PIE_CHART,
-    // todo group 数组确认
-    // 当前select时，group为数组，此处回显暂时写成数组第一个 后期select改为dorpdown，此处回显还需调整
-    group: (group[0] as any)?.key,
+    group: group?.length ? (group[0] as GroupValue)?.key : undefined,
     value: value,
   };
 
