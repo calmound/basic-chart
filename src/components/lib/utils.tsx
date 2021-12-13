@@ -4,11 +4,9 @@ import axios from "axios";
 export const getChartsData = async (props: { option: any; tenant: any }) => {
     const { option, tenant } = props;
     const { group, value, type, iql, cluster } = option;
-    const arrGroupData = [];
-    arrGroupData.push(group);
     try {
       const resData = await axios.post(`/report/${tenant.key}/${type}/search`, {
-        group: arrGroupData,
+        group,
         value,
         iql,
         workspacd: '',
