@@ -1,13 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ColumnsType } from 'antd/lib/table';
 
 import { Table } from '@osui/ui';
 
 import { ViewProps } from '../lib/type';
 import cx from './View.less'
+import { getChartsData } from '../lib/utils';
 
-const View = ({ option }: ViewProps) => {
+const View = ({ option, tenant }: ViewProps) => {
   const { value = [], valueGroup } = option;
+  const [resData, setResData] = useState([]);
   // group
   // 第一行，聚合header，如事项类型，select的数据源
   const groupHeader = useMemo(() => {
@@ -91,6 +93,14 @@ const View = ({ option }: ViewProps) => {
       },
     });
   }
+
+  useEffect(() => {
+    const resData: any = getChartsData({
+      option,
+      tenant,
+    });
+    setResData(resData);
+  }, [option, tenant]);
 
   return (
       <Table className={cx.table} columns={columns} dataSource={data} bordered size="middle" scroll={{ x: 'calc(700px + 50%)', y: 240 }} />

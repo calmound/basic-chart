@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
 import { ViewProps } from '../lib/type';
+import { getChartsData } from '../lib/utils';
 
-const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
+const View: React.FC<ViewProps> = ({ random, option, tenant }) => {
   const id = random ? 'basic-pie-chart_' + random : 'basic-pie-chart';
   const [echart, setEChart] = useState(null);
 
@@ -16,6 +17,13 @@ const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
 
   // 请求数据
   useEffect(() => {
+     /**
+     * 暂时将数据类型定义为any
+     */
+      const resData: any = getChartsData({
+        option,
+        tenant,
+      });
     const pieData = {
       xAxis: {
         show: false,
@@ -25,7 +33,7 @@ const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
         {
           type: 'pie',
           stillShowZeroSum: false,
-          data: chartData.dataValue,
+          data: resData.dataValue,
           radius: '70%',
           center: ['50%', '50%'],
           legndHoverLink: true,
@@ -41,7 +49,7 @@ const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
         origin: 'vertical',
         x: 'center',
         y: 'bottom',
-        data: chartData.legendData,
+        data: resData.legendData,
         formatter: '{name}',
       },
     };
@@ -54,7 +62,7 @@ const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
         },
       });
     }
-  }, [chartData.dataValue, chartData.legendData, echart, id, option]);
+  }, [tenant, echart, id, option]);
 
   // return <div id={id} className={'view'} />;
   return <div id={id} className={'view'} />;

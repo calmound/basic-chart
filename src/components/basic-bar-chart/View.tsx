@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
+import { getChartsData } from '../lib/utils';
 import { ViewProps } from '../lib/type';
 
-const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
+const View: React.FC<ViewProps> = ({ random, option, tenant }) => {
   const id = random ? 'basic-bar-chart_' + random : 'basic-bar-chart';
   const [chart, setChart] = useState(null);
 
@@ -16,9 +17,16 @@ const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
 
   // 请求数据
   useEffect(() => {
+    /**
+    * 暂时将数据类型定义为any
+    */
+    const resData: any = getChartsData({
+      option,
+      tenant,
+    });
     const xyData = {
       xAxis: {
-        data: chartData.legendData,
+        data: resData.legendData,
         show: true,
       },
       yAxis: {},
@@ -26,7 +34,7 @@ const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
       series: [
         {
           type: 'bar',
-          data: chartData.dataValue,
+          data: resData.dataValue,
           label: {
             normal: {
               position: 'outer',
@@ -46,7 +54,7 @@ const View: React.FC<ViewProps> = ({ random, option, chartData }) => {
         },
       });
     }
-  }, [chart, chartData.dataValue, chartData.legendData, id, option]);
+  }, [chart, id, option]);
 
   // return <div id={id} className={'view'} />;
   return <div id={id} className={'view'} />;
