@@ -30,4 +30,5 @@ export type ViewProps = {
   view: string;
   workspace?: Workspace;
   chartData?: { legendData: []; dataValue: [] };
+  tenant?: Tenant;
 };
