@@ -8,12 +8,12 @@ import cx from './View.less'
 import { getChartsData } from '../lib/utils';
 
 const View = ({ option, tenant }: ViewProps) => {
-  const { value = [], valueGroup } = option;
+  const { value = [], cluster = [] } = option;
   const [resData, setResData] = useState([]);
   // group
   // 第一行，聚合header，如事项类型，select的数据源
   const groupHeader = useMemo(() => {
-    if (valueGroup?.length) {
+    if (cluster?.length) {
       // const group = _group.length ? _group[0] : {};
       return [
         { label: '新建', value: 'new' },
@@ -21,7 +21,7 @@ const View = ({ option, tenant }: ViewProps) => {
       ];
     }
     return null;
-  }, [valueGroup]);
+  }, [cluster]);
  
   // const itemType = useItemTypes(workspace?.id); // 事项类型列表, 通过空间进行隔离
   // group
@@ -49,6 +49,7 @@ const View = ({ option, tenant }: ViewProps) => {
       dataIndex: 'name',
       key: 'name',
       width: 100,
+      align: 'center',
     },
   ] as ColumnsType<any>;
 
@@ -56,10 +57,12 @@ const View = ({ option, tenant }: ViewProps) => {
   if (groupHeader) {
     const groupColumns = groupHeader.map(item => {
       return {
-        title: '新建',
+        title: item.label,
+        align: 'center',
         children: value.map(k => ({
           title: k.name,
           width: 100,
+          align: 'center',
           render: (text, record) => {
             return record[item.value][k.key];
           },
@@ -74,6 +77,7 @@ const View = ({ option, tenant }: ViewProps) => {
       width: 100,
       dataIndex: k.key,
       key: k.key,
+      align: 'center',
     }));
     columns = firstColumns.concat(listColumns);
   }
@@ -103,7 +107,7 @@ const View = ({ option, tenant }: ViewProps) => {
   }, [option, tenant]);
 
   return (
-      <Table className={cx.table} columns={columns} dataSource={data} bordered size="middle" scroll={{ x: 'calc(700px + 50%)', y: 240 }} />
+      <Table className={cx.table} columns={columns} dataSource={data} bordered size="middle" scroll={{ x: 'calc(700px + 50%)', y: 900 }} />
   );
 };
 
