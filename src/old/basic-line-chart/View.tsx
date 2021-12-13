@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react';
 import * as echarts from 'echarts';
 
-const View = () => {
+type ViewProps = {
+  random?: string;
+}
+
+const View = ({random}: ViewProps) => {
+  const id = random ? 'basic-pie-chart_'+ random : 'basic-pie-chart_';
   useEffect(() => {
-    const myChart = echarts.init(document.getElementById('basic-pie-chart'));
+    const myChart = echarts.init(document.getElementById(id));
     myChart.setOption({
       title: {
         text: 'ECharts 入门示例',
@@ -23,9 +28,7 @@ const View = () => {
     });
   }, []);
   return (
-    <div>
-      <div id="basic-pie-chart" style={{ width: '100%', height: '300px' }}></div>
-    </div>
+      <div id={id} className={'view'} style={{ width: '100%'}}></div>
   );
 };
 

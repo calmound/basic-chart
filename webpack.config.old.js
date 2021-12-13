@@ -63,9 +63,7 @@ module.exports = (cliEnv = {}, argv) => {
     },
   };
   // 生产环境使用 MiniCssExtractPlugin
-  // const extractOrStyleLoaderConfig = isProd ? MiniCssExtractPlugin.loader : 'style-loader';
-  const extractOrStyleLoaderConfig = 'style-loader';
-
+  const extractOrStyleLoaderConfig = isProd ? MiniCssExtractPlugin.loader : 'style-loader';
 
   // 根据 patterns 使用 style-resources-loader
   const makeStyleResourcesLoader = patterns => ({
@@ -102,9 +100,9 @@ module.exports = (cliEnv = {}, argv) => {
     options: {
       postcssOptions: {
         plugins: [
-          // namespacePefixer({
-          //   namespace: `#${appPerfix}`,
-          // }),
+          namespacePefixer({
+            namespace: `#${appPerfix}`,
+          }),
           autoprefixer,
         ],
       },
@@ -116,10 +114,7 @@ module.exports = (cliEnv = {}, argv) => {
     //   // bar: './components/bar-chart',
     // },
     entry: isProd || isDebug ? {
-      'basic-pie-chart': './src/components/basic-pie-chart',
-      'basic-bar-chart': './src/components/basic-bar-chart',
-      'basic-line-chart': './src/components/basic-line-chart',
-      'basic-table-chart': './src/components/basic-table-chart',
+      'index': './src/components',
     } : './src/index.tsx',
     mode: isProd ? 'production' : 'development',
     output: outputConfig(isProd),
@@ -239,7 +234,6 @@ module.exports = (cliEnv = {}, argv) => {
       {
         react: 'commonjs2 react',
         'react-dom': 'commonjs2 react-dom',
-        'formik':'commonjs2 formik'
       },
       function ({ context, request }, callback) {
         const dependencies = Object.keys(package.dependencies);

@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import { Form, Select } from '@osui/ui';
 // @ts-ignore
+import {FilterQuery} from 'components/Filters'
+// @ts-ignore
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
 // @ts-ignore
 import Parse from 'proxima-sdk/lib/Parse';
 // @ts-ignore
-import { CustomField } from 'proxima-sdk/schema';
+import { CustomField } from 'proxima-sdk/schema/models';
 
 // const TYPE_LIST = [
 //   {
@@ -15,12 +17,12 @@ import { CustomField } from 'proxima-sdk/schema';
 // ];
 
 const Option = () => {
-  // const { data: _customField } = useParseQuery(new Parse.Query(CustomField), FetchMethod.All);
+  const { data: _customField } = useParseQuery(new Parse.Query(CustomField), FetchMethod.All);
 
-  // const customFields = useMemo(() => {
-  //   return _customField?.length ? _customField.map(c => ({ value: c.key, label: c.name })) : [];
-  // }, [_customField]);
-  const customFields = []
+  const customFields = useMemo(() => {
+    return _customField?.length ? _customField.map(c => ({ value: c.key, label: c.name })) : [];
+  }, [_customField]);
+  // const customFields = []
   return (
     <div>
       <Form layout={'vertical'}>
@@ -32,6 +34,7 @@ const Option = () => {
           </Select>
         </Form.Item>
       </Form>
+      {/* <FilterQuery /> */}
     </div>
   );
 };
