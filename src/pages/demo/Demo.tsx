@@ -4,7 +4,7 @@ import Error from '@/statics/error.png';
 import Logo from '@/statics/Gitee-Scan.svg';
 import cx from './Demo.less';
 import { useSDK } from '@projectproxima/plugin-sdk';
-import { View, Option } from '../../components/pie-chart';
+import { View, Option } from '../../components/basic-pie-chart';
 
 const Demo: React.FC = () => {
   const sdk = useSDK();
@@ -27,10 +27,10 @@ const Demo: React.FC = () => {
       <div>svg测试:</div>
       <Logo /> */}
       <div className={cx('view')}>
-        <View />
+        {/* <View /> */}
 
       </div>
-      <Option />
+      {/* <Option /> */}
     </div>
   );
 };

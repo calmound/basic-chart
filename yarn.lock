@@ -3615,6 +3615,11 @@ deep-is@^0.1.3:
   resolved "https://registry.npm.taobao.org/deep-is/download/deep-is-0.1.3.tgz"
   integrity sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
 
+deepmerge@^2.1.1:
+  version "2.2.1"
+  resolved "https://registry.nlark.com/deepmerge/download/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
+  integrity sha1-XT/yKgHAD2RUBaL7wX0HeKGAEXA=
+
 deepmerge@^4.2.2:
   version "4.2.2"
   resolved "https://registry.npm.taobao.org/deepmerge/download/deepmerge-4.2.2.tgz?cache=0&sync_timestamp=1606805746825&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdeepmerge%2Fdownload%2Fdeepmerge-4.2.2.tgz"
@@ -4414,6 +4419,19 @@ follow-redirects@^1.14.0:
   version "1.14.3"
   resolved "https://registry.nlark.com/follow-redirects/download/follow-redirects-1.14.3.tgz"
   integrity sha1-atp4EY2NJMruWVWVrM3ArGq9Ai4=
+
+formik@^2.2.6:
+  version "2.2.9"
+  resolved "https://registry.nlark.com/formik/download/formik-2.2.9.tgz#8594ba9c5e2e5cf1f42c5704128e119fc46232d0"
+  integrity sha1-hZS6nF4uXPH0LFcEEo4Rn8RiMtA=
+  dependencies:
+    deepmerge "^2.1.1"
+    hoist-non-react-statics "^3.3.0"
+    lodash "^4.17.21"
+    lodash-es "^4.17.21"
+    react-fast-compare "^2.0.1"
+    tiny-warning "^1.0.2"
+    tslib "^1.10.0"
 
 forwarded@0.2.0:
   version "0.2.0"
@@ -5375,6 +5393,11 @@ locate-path@^5.0.0:
   integrity sha1-Gvujlq/WdqbUJQTQpno6frn2KqA=
   dependencies:
     p-locate "^4.1.0"
+
+lodash-es@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.nlark.com/lodash-es/download/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha1-Q+YmxG5lkbd1C+srUBFzkMYJ4+4=
 
 lodash.clonedeep@^4.5.0:
   version "4.5.0"
@@ -6736,6 +6759,11 @@ react-dom@^17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
+react-fast-compare@^2.0.1:
+  version "2.0.4"
+  resolved "https://registry.nlark.com/react-fast-compare/download/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
+  integrity sha1-6EtNRVsP7BE+BALDKTUnFRlvgfk=
+
 react-floater@^0.7.3:
   version "0.7.3"
   resolved "https://registry.nlark.com/react-floater/download/react-floater-0.7.3.tgz"
@@ -7691,7 +7719,7 @@ tiny-invariant@^1.0.2:
   resolved "https://registry.npm.taobao.org/tiny-invariant/download/tiny-invariant-1.1.0.tgz"
   integrity sha1-Y0xfjv3CdxS384bDXmdgmR0jCHU=
 
-tiny-warning@^1.0.0, tiny-warning@^1.0.3:
+tiny-warning@^1.0.0, tiny-warning@^1.0.2, tiny-warning@^1.0.3:
   version "1.0.3"
   resolved "https://registry.npm.taobao.org/tiny-warning/download/tiny-warning-1.0.3.tgz?cache=0&sync_timestamp=1562635535811&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftiny-warning%2Fdownload%2Ftiny-warning-1.0.3.tgz"
   integrity sha1-lKMNtFPfTGQ9D9VmBg1gqHXYR1Q=
