@@ -32,6 +32,7 @@ export type ViewProps = {
   // chartData?: { legendData: []; dataValue: [] };
   tenant?: Tenant;
   sessionToken: string;
+  isListView?: boolean;
 };
 
 // // 不同的图表数据格式不一样

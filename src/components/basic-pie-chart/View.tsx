@@ -13,7 +13,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
 
   useEffect(() => {
     const dom = document.getElementById(id);
-    const echart = echarts.init(dom);
+    const echart = dom && echarts.init(dom);
     setEChart(echart);
 
     return () => {
@@ -93,8 +93,8 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
 
   return (
     <>
-      {noDataFlag ? <NoData title="暂无数据，请修改图标数据配置" /> : null}
-      <div id={id} className={'view'} />
+      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" /> : null}
+      <div id={id} className={'view echarts-view'} />
     </>
   );
 };
