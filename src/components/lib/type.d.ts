@@ -8,20 +8,20 @@ export type OptionValue = {
   type: string;
   group: GroupValue[];
   value?: GroupValue[];
-  valueGroup: GroupValue[];
+  cluster: GroupValue[];
   iql?: string;
+  w?: number;
 };
 
 export type ConfigProps = {
   setOption?: React.Dispatch<any>;
   view?: string;
   option: OptionValue;
-  handleChageType: (type: string) => void
+  handleChageType?: (type: string) => void;
 };
 
 export type OptionProps = {
   option: any;
-  handleChageType: (type: string) => void
 };
 
 export type ViewProps = {
@@ -29,6 +29,13 @@ export type ViewProps = {
   option?: OptionValue;
   view: string;
   workspace?: Workspace;
-  chartData?: { legendData: []; dataValue: [] };
+  // chartData?: { legendData: []; dataValue: [] };
   tenant?: Tenant;
+  sessionToken: string;
 };
+
+// // 不同的图表数据格式不一样
+// export type ChartDataProps = {
+//   legendData?: any;
+//   dataValue?: any;
+// };

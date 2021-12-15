@@ -24,12 +24,8 @@ const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
 
 /**
  * todo.....
- * option 回显后续在验证
- * value 搜索有问题
- * 下拉value是数组，所以需要使用Dropdown
- * table 等待新后端结构，然后适配
  */
-const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
+ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
   const { type, group, value } = option;
   // 获取数据源类型的自定义字段
   let selectQuery = new Parse.Query(CustomField).include('fieldType');
@@ -53,7 +49,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
         },
         name: '事项数',
       },
-    ].concat(_numberFields || []);
+    ].concat(_numberFields || []) as CustomFieldProps[];
   }, [_numberFields]);
 
   // 下拉类型的字段
@@ -74,6 +70,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
     type: type || BASIC_PIE_CHART,
     group: group?.length ? (group[0] as GroupValue)?.key : undefined,
     value: value,
+    // cluster: cluster,
   };
 
   const typeOptions = useMemo(() => {
@@ -83,6 +80,13 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
       </Select.Option>
     ));
   }, []);
+
+  const groupValue = useMemo(() => {
+    if (group?.length) {
+      return group[0].name;
+    }
+    return undefined;
+  }, [group]);
 
   return (
     <div>
@@ -109,7 +113,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                     {...field}
                     optionFilterProp="children"
                     onChange={(val: string) => {
-                      handleChageType(val)
+                      handleChageType(val);
                       setOption({ ...option, type: val });
                       setFieldValue('type', val);
                     }}
@@ -124,6 +128,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                 <>
                   <Select
                     {...field}
+                    value={groupValue}
                     showSearch={true}
                     placeholder="请选择"
                     onChange={(val, opt) => {
@@ -160,6 +165,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                     });
                     setFieldValue('value', val);
                   }}
+                  mode={type === BASIC_PIE_CHART ? '' : 'multiple'}
                 />
               )}
             </FormField>
@@ -169,9 +175,12 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                   <Select
                     {...field}
                     showSearch
-                    allowClear
+                    // allowClear
                     placeholder="请选择"
                     onChange={(val, opt) => {
+                      /**
+                       * todo 支持清除功能不生效，原因val，opt undefined，上面select同样的问题
+                       */
                       const { key, name, fieldType } = opt as unknown as CustomFieldProps;
                       setOption({
                         ...option,
@@ -187,8 +196,11 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                     }}
                     optionFilterProp="children"
                   >
-                    <Select.Option key={'stauts'} fieldType={'Status'} name="状态" value={'stauts'}>
+                    <Select.Option key={'status'} fieldType={'Status'} name="状态" value={'status'}>
                       状态
+                    </Select.Option>
+                    <Select.Option key={'status1'} fieldType={'Status1'} name="状态1" value={'status1'}>
+                      状态1
                     </Select.Option>
                   </Select>
                 )}
@@ -226,7 +238,6 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
         )}
       </Formik>
     </div>
-    // </>
   );
 };
 

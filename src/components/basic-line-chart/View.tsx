@@ -3,59 +3,78 @@ import * as echarts from 'echarts';
 
 import { ViewProps } from '../lib/type';
 import { getChartsData } from '../lib/utils';
+// @ts-ignore
+import { NoData } from 'proxima-sdk/components/Components/Chart';
 
-const View: React.FC<ViewProps> = ({ random, option, tenant }) => {
+const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => {
   const id = random ? 'basic-line-chart_' + random : 'basic-line-chart';
-  const [chart, setChart] = useState(null);
+  const [echart, setChart] = useState(null);
+  const [noDataFlag, setNoDataFlag] = useState(false);
 
   useEffect(() => {
-    const chart = echarts.init(document.getElementById(id));
-    setChart(chart);
+    const echart = echarts.init(document.getElementById(id));
+    setChart(echart);
+    return () => {
+      document.getElementById(id)?.remove();
+    };
     // 只需要第一次初始化
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    echart && echart.resize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [echart, option.w]);
+
   // 请求数据
   useEffect(() => {
-    /**
-     * 暂时将数据类型定义为any
-     */
-     const resData: any = getChartsData({
-      option,
-      tenant,
-    });
-    const xyData = {
-      xAxis: {
-        data: resData.legendData,
-        show: true,
-      },
-      yAxis: {},
-      // formatter: '{b}: {c}',
-      series: [
-        {
-          type: 'line',
-          data: resData.dataValue,
-          label: {
-            normal: {
-              position: 'outer',
-              // formatter: '{b}: {d}%',
-            },
-          },
-        },
-      ],
-    };
-    const data = xyData;
-    if (chart) {
-      chart.setOption({
-        ...data,
-        tooltip: {
-          formatter: '{b}: {c} 占比: {d}%',
-        },
-      });
+    if (!option?.group?.length || !option?.value?.length) {
+      setNoDataFlag(true);
+    } else {
+      setNoDataFlag(false);
     }
-  }, [chart, tenant, id, option]);
+    async function fetch() {
+      const resData: any = await getChartsData({
+        option,
+        tenant,
+        sessionToken,
+      });
+      const xAxisData = resData?.data?.payload?.xAxis || [];
+      const seriesValue = resData?.data?.payload?.value || [];
+      if (!seriesValue?.length || !xAxisData?.length) {
+        setNoDataFlag(true);
+      } else {
+        setNoDataFlag(false);
+      }
+      const xyData = {
+        xAxis: {
+          data: xAxisData,
+          show: true,
+        },
+        yAxis: {},
+        // formatter: '{b}: {c}',
+        series: seriesValue,
+      };
 
-  return <div id={id} className={'view'} />;
+      const data = xyData;
+      if (echart) {
+        echart.setOption({
+          ...data,
+          tooltip: {
+            formatter: '{b}: {c} 占比: {d}%',
+          },
+        });
+      }
+    }
+    fetch();
+  }, [echart, id, option, sessionToken, tenant]);
+
+  return (
+    <>
+      {noDataFlag ? <NoData title="暂无数据，请修改图标数据配置" /> : null}
+      <div id={id} className={'view'} />
+    </>
+  );
 };
 
 export default View;
