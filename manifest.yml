@@ -2,7 +2,7 @@ app:
   uuid: fce17f7c-9671-4887-9804-f10d181034d4
   name: chart
 modules:
-  automation:
+  chart:
     - key: basic-pie-chart
       resource: basic-pie-chart
       name: 事项类型占比
