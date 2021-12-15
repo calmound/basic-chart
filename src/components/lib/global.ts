@@ -25,16 +25,19 @@ export const CHART_TYPE_INFO = {
     name: '饼图',
     groupLabel: '维度',
     valueLabel: '值',
+    type: 'pie',
   },
   [BASIC_LINE_CHART]: {
     name: '折线图',
     groupLabel: 'X轴',
     valueLabel: 'Y轴',
+    type: 'line',
   },
   [BASIC_BAR_CHART]: {
     name: '柱状图',
     groupLabel: 'X轴',
     valueLabel: 'Y轴',
+    type: 'bar',
   },
 
   [BASIC_TABLE_CHART]: {
@@ -42,6 +45,7 @@ export const CHART_TYPE_INFO = {
     groupLabel: '维度',
     valueLabel: '值',
     valueGroupLabel: '列纬度',
+    type: 'table',
   },
 };
 
