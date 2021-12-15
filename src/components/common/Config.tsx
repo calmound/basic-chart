@@ -20,18 +20,18 @@ import { BASIC_PIE_CHART, BASIC_TABLE_CHART, CHART_TYPE_INFO, INIT_OPTION } from
 import { ConfigProps, GroupValue } from '../lib/type';
 const { TextArea } = Input;
 
-const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
+const { Number, User, Dropdown, ItemType, Status } = FIELD_TYPE_KEY_MAPPINGS;
 
 /**
  * todo.....
  */
  const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
-  const { type, group, value } = option;
+  const { type, group, value, cluster, iql } = option;
   // 获取数据源类型的自定义字段
   let selectQuery = new Parse.Query(CustomField).include('fieldType');
   selectQuery = selectQuery.matchesQuery(
     'fieldType',
-    new Parse.Query(FieldType).containedIn('key', [Dropdown, User, ItemType]),
+    new Parse.Query(FieldType).containedIn('key', [Dropdown, User, ItemType, Status]),
   );
   const { data: _xData } = useParseQuery(selectQuery, FetchMethod.All);
 
@@ -70,7 +70,8 @@ const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
     type: type || BASIC_PIE_CHART,
     group: group?.length ? (group[0] as GroupValue)?.key : undefined,
     value: value,
-    // cluster: cluster,
+    cluster: cluster?.length ? (cluster[0] as GroupValue)?.key : undefined,
+    iql: iql,
   };
 
   const typeOptions = useMemo(() => {
@@ -196,12 +197,10 @@ const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
                     }}
                     optionFilterProp="children"
                   >
-                    <Select.Option key={'status'} fieldType={'Status'} name="状态" value={'status'}>
+                    {groupOptions}
+                    {/* <Select.Option key={'status'} fieldType={'Status'} name="状态" value={'status'}>
                       状态
-                    </Select.Option>
-                    <Select.Option key={'status1'} fieldType={'Status1'} name="状态1" value={'status1'}>
-                      状态1
-                    </Select.Option>
+                    </Select.Option> */}
                   </Select>
                 )}
               </FormField>
