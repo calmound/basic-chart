@@ -26,7 +26,7 @@ const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
  * todo.....
  */
  const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
-  const { type, group, value } = option;
+  const { type, group, value, cluster, iql } = option;
   // 获取数据源类型的自定义字段
   let selectQuery = new Parse.Query(CustomField).include('fieldType');
   selectQuery = selectQuery.matchesQuery(
@@ -70,7 +70,8 @@ const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
     type: type || BASIC_PIE_CHART,
     group: group?.length ? (group[0] as GroupValue)?.key : undefined,
     value: value,
-    // cluster: cluster,
+    cluster: cluster?.length ? (cluster[0] as GroupValue)?.key : undefined,
+    iql: iql,
   };
 
   const typeOptions = useMemo(() => {
