@@ -1,49 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ColumnsType } from 'antd/lib/table';
+import classNames from 'classnames';
 
 import { message, Table } from '@osui/ui';
 
 import { ViewProps } from '../lib/type';
-import cx from './View.less'
+import './View.less'
 import { getChartsData } from '../lib/utils';
 // @ts-ignore
 import { NoData } from 'proxima-sdk/components/Components/Chart';
 
-const View = ({ option, tenant, sessionToken }: ViewProps) => {
+const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView }) => {
   const { group = [], value = [] } = option;
   const [resData, setResData] = useState([]);
   const [noDataFlag, setNoDataFlag] = useState(false);
   const [groupHeader, setGroupHeader] = useState([]);
-
-  // group
-  // 第一行，聚合header，如事项类型，select的数据源
-  // const groupHeader = useMemo(() => {
-  //   // if (cluster?.length) {
-  //   //   const group = _group.length ? _group[0] : {};
-  //   // }
-  //   return ["新建", "测试通过", "待测试", "不是bug", "QA测试通过", "挂起", "低级-可延期", "修复中", "已修复", "未复现", "已上线", "测试完成", "需求设计"];
-  //   return null;
-  // }, [cluster]);
-
-  // const itemType = useItemTypes(workspace?.id); // 事项类型列表, 通过空间进行隔离
-  // group
-  // const groupHeader = useMemo(() => {
-  //   if (data.key === SYSTEM_FIELD.ItemType) {
-  //     // 事项类型
-  //     return itemType;
-  //   }
-  //   return data ? data.data : null;
-  // }, [data, itemType]);
-  // const { data } = useParseQuery(new Parse.Query(CustomField).equalTo('key', groupHeader.key), FetchMethod.First);
-
-  // const columns = [
-  //   {
-  //     title: '事项类型',
-  //     dataIndex: 'name',
-  //     key: 'name',
-  //     width: 100,
-  //   },
-  // ];
 
   const columns = useMemo(() => {
     const firstColumns = [
@@ -51,7 +22,7 @@ const View = ({ option, tenant, sessionToken }: ViewProps) => {
         title: group[0]?.name || '',
         dataIndex: 'name',
         key: 'name',
-        width: 100,
+        width: 130,
         align: 'center',
       },
     ] as ColumnsType<any>;
@@ -62,7 +33,7 @@ const View = ({ option, tenant, sessionToken }: ViewProps) => {
           align: 'center',
           children: value.map(k => ({
             title: k.name,
-            width: 100,
+            width: 130,
             align: 'center',
             render: (text, record) => {
               return record?.[item]?.[k.key] || '-';
@@ -117,14 +88,17 @@ const View = ({ option, tenant, sessionToken }: ViewProps) => {
   return (
     <>
       {noDataFlag ? <NoData title="暂无数据，请修改图标数据配置" /> : null}
-      <Table
-        className={cx.table}
-        columns={columns}
-        dataSource={resData}
-        bordered
-        size="middle"
-        scroll={{ x: true, y: 900 }}
-      />
+      <div className={classNames(isListView ? 'basic-chart-table-list-wrap' : 'basic-chart-table-wrap')}>
+        <Table
+          className={'baisc-table'}
+          columns={columns}
+          dataSource={resData}
+          bordered
+          size={isListView ? 'small' : 'middle'}
+          scroll={{ x: 'max-content', y: isListView ? 200 : 500 }}
+          pagination={false}
+        />
+      </div>
     </>
   );
 };
