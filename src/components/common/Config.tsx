@@ -20,7 +20,7 @@ import { BASIC_PIE_CHART, BASIC_TABLE_CHART, CHART_TYPE_INFO, INIT_OPTION } from
 import { ConfigProps, GroupValue } from '../lib/type';
 const { TextArea } = Input;
 
-const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
+const { Number, User, Dropdown, ItemType, Status } = FIELD_TYPE_KEY_MAPPINGS;
 
 /**
  * todo.....
@@ -31,7 +31,7 @@ const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
   let selectQuery = new Parse.Query(CustomField).include('fieldType');
   selectQuery = selectQuery.matchesQuery(
     'fieldType',
-    new Parse.Query(FieldType).containedIn('key', [Dropdown, User, ItemType]),
+    new Parse.Query(FieldType).containedIn('key', [Dropdown, User, ItemType, Status]),
   );
   const { data: _xData } = useParseQuery(selectQuery, FetchMethod.All);
 
@@ -197,12 +197,10 @@ const { Number, User, Dropdown, ItemType } = FIELD_TYPE_KEY_MAPPINGS;
                     }}
                     optionFilterProp="children"
                   >
-                    <Select.Option key={'status'} fieldType={'Status'} name="状态" value={'status'}>
+                    {groupOptions}
+                    {/* <Select.Option key={'status'} fieldType={'Status'} name="状态" value={'status'}>
                       状态
-                    </Select.Option>
-                    <Select.Option key={'status1'} fieldType={'Status1'} name="状态1" value={'status1'}>
-                      状态1
-                    </Select.Option>
+                    </Select.Option> */}
                   </Select>
                 )}
               </FormField>
