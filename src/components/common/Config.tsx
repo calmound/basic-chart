@@ -6,7 +6,7 @@ import { DropdownInput } from 'proxima-sdk/components/Components/Chart';
 // @ts-ignore
 import { FormField } from 'proxima-sdk/components/Components/Common';
 // @ts-ignore
-import { FIELD_TYPE_KEY_MAPPINGS } from 'proxima-sdk/lib/Global';
+import { FIELD_TYPE_KEY_MAPPINGS, INIT_CHART_GROUP_LINE_VALUE, INIT_CHART_GROUP_VALUE } from 'proxima-sdk/lib/Global';
 // @ts-ignore
 import { CustomField, FieldType } from 'proxima-sdk/schema/models';
 // @ts-ignore
@@ -16,11 +16,11 @@ import { CustomField as CustomFieldProps } from 'proxima-sdk/schema/types/models
 // @ts-ignore
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
 
-import { BASIC_PIE_CHART, BASIC_TABLE_CHART, CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
+import { BASIC_LINE_CHART, BASIC_PIE_CHART, BASIC_TABLE_CHART, CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
 import { ConfigProps, GroupValue } from '../lib/type';
 const { TextArea } = Input;
 
-const { Number, User, Dropdown, ItemType, Status } = FIELD_TYPE_KEY_MAPPINGS;
+const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } = FIELD_TYPE_KEY_MAPPINGS;
 
 /**
  * todo.....

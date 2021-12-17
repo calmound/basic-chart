@@ -1,9 +1,13 @@
 import { message } from "@osui/ui";
 import axios from "axios";
+// @ts-ignore
+import { IQL_CONDITION } from 'proxima-sdk/lib/Global';
 
-export const getChartsData = async (props: { option: any; tenant: any; sessionToken: any }) => {
-  const { option, tenant, sessionToken } = props;
+export const getChartsData = async (props: { option: any; tenant: any; sessionToken: any; workspace:any }) => {
+  const { option, tenant, sessionToken, workspace } = props;
   const { group, value, type, iql = '', cluster } = option;
+  const nomalIql = `所属空间 ${IQL_CONDITION.EQUAL} '${workspace?.name}'`;
+  const Iql = iql === '' ? nomalIql : nomalIql && iql;
   try {
     if (!value?.length || !group?.length) {
       return null;
@@ -13,8 +17,8 @@ export const getChartsData = async (props: { option: any; tenant: any; sessionTo
       {
         group,
         value,
-        iql,
-        workspacd: '',
+        iql: Iql,
+        workspace: '',
         cluster,
       },
       {

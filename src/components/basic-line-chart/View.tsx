@@ -6,7 +6,7 @@ import { getChartsData } from '../lib/utils';
 // @ts-ignore
 import { NoData } from 'proxima-sdk/components/Components/Chart';
 
-const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => {
+const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace }) => {
   const id = random ? 'basic-line-chart_' + random : 'basic-line-chart';
   const [echart, setChart] = useState(null);
   const [noDataFlag, setNoDataFlag] = useState(false);
@@ -38,6 +38,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
         option,
         tenant,
         sessionToken,
+        workspace,
       });
       const xAxisData = resData?.data?.payload?.xAxis || [];
       const seriesValue = resData?.data?.payload?.value || [];
@@ -71,7 +72,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
 
   return (
     <>
-      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" /> : null}
+      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> : null}
       <div id={id} className={'view echarts-view'} />
     </>
   );

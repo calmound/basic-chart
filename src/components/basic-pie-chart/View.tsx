@@ -6,7 +6,7 @@ import { getChartsData } from '../lib/utils';
 // @ts-ignore
 import { NoData } from 'proxima-sdk/components/Components/Chart';
 
-const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => {
+const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace }) => {
   const id = random ? 'basic-pie-chart_' + random : 'basic-pie-chart';
   const [echart, setEChart] = useState(null);
   const [noDataFlag, setNoDataFlag] = useState(false);
@@ -40,6 +40,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
         option,
         tenant,
         sessionToken,
+        workspace,
       });
       const seriesData = resData?.data?.payload?.value || [];
       const legendData = resData?.data?.payload?.type || [];
@@ -47,6 +48,24 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
         setNoDataFlag(true);
       } else {
         setNoDataFlag(false);
+      }
+      const sortSeriesData = seriesData.sort(function (a, b) {
+        return b.value - a.value;
+      });
+      for (let i = 0; i < sortSeriesData.length; i++) {
+        if (i < 3) {
+          sortSeriesData[i].label = {
+            show: true,
+            formatter: '{b}: {d}%',
+          };
+          sortSeriesData[i].labelLine = {
+            show: true,
+          };
+        } else {
+          sortSeriesData[i].label = {
+            show: false,
+          };
+        }
       }
       const pieData = {
         xAxis: {
@@ -57,25 +76,23 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
           {
             type: 'pie',
             stillShowZeroSum: false,
-            data: seriesData,
+            data: sortSeriesData,
             radius: '70%',
             center: ['50%', '50%'],
             legndHoverLink: true,
-            label: {
-              normal: {
-                position: 'outer',
-                formatter: '{b}: {d}%',
-              },
-            },
           },
         ],
         legend: {
           origin: 'vertical',
           x: 'center',
-          y: 'bottom',
+          bottom: 0,
+          textStyle: {
+            padding: [10, 0, 0, 0],
+          },
           data: legendData,
           formatter: '{name}',
         },
+        color: ['#0C62FF', '#36B37E', '#FFAB00', '#6554C0', '#00B8D9', '#FF8F73', '#DE350B', '#C26A00'],
       };
 
       const data = pieData;
@@ -93,7 +110,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
 
   return (
     <>
-      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" /> : null}
+      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> : null}
       <div id={id} className={'view echarts-view'} />
     </>
   );

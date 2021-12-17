@@ -10,7 +10,7 @@ import { getChartsData } from '../lib/utils';
 import { NoData } from 'proxima-sdk/components/Components/Chart';
 import classNames from 'classnames';
 
-const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView }) => {
+const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace }) => {
   const { group = [], value = [] } = option;
   const [resData, setResData] = useState([]);
   const [noDataFlag, setNoDataFlag] = useState(false);
@@ -67,6 +67,7 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView })
           option,
           tenant,
           sessionToken,
+          workspace,
         });
         // todo 返回的data设置setResData
         const data = resData?.data?.payload?.data;
@@ -87,7 +88,7 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView })
 
   return (
     <>
-      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" /> : null}
+      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> : null}
       <div className={classNames(isListView ? 'basic-chart-table-list-wrap' : 'basic-chart-table-wrap')}>
         <Table
           className={'baisc-table'}
