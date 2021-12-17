@@ -9,6 +9,7 @@ import './View.less'
 import { getChartsData } from '../lib/utils';
 // @ts-ignore
 import { NoData } from 'proxima-sdk/components/Components/Chart';
+import classNames from 'classnames';
 
 const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView }) => {
   const { group = [], value = [] } = option;
@@ -87,7 +88,7 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView })
 
   return (
     <>
-      {noDataFlag ? <NoData title="暂无数据，请修改图标数据配置" /> : null}
+      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" /> : null}
       <div className={classNames(isListView ? 'basic-chart-table-list-wrap' : 'basic-chart-table-wrap')}>
         <Table
           className={'baisc-table'}

@@ -61,7 +61,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
         echart.setOption({
           ...data,
           tooltip: {
-            formatter: '{b}: {c} 占比: {d}%',
+            formatter: '{b}: {c}',
           },
         });
       }
@@ -71,8 +71,8 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken }) => 
 
   return (
     <>
-      {noDataFlag ? <NoData title="暂无数据，请修改图标数据配置" /> : null}
-      <div id={id} className={'view'} />
+      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" /> : null}
+      <div id={id} className={'view echarts-view'} />
     </>
   );
 };
