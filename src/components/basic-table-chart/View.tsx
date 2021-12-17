@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ColumnsType } from 'antd/lib/table';
+import classNames from 'classnames';
 
 import { message, Table } from '@osui/ui';
 
 import { ViewProps } from '../lib/type';
-import cx from './View.less'
+import './View.less'
 import { getChartsData } from '../lib/utils';
 // @ts-ignore
 import { NoData } from 'proxima-sdk/components/Components/Chart';

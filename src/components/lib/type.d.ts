@@ -29,14 +29,7 @@ export type ViewProps = {
   option?: OptionValue;
   view: string;
   workspace?: Workspace;
-  // chartData?: { legendData: []; dataValue: [] };
   tenant?: Tenant;
   sessionToken: string;
   isListView?: boolean;
 };
-
-// // 不同的图表数据格式不一样
-// export type ChartDataProps = {
-//   legendData?: any;
-//   dataValue?: any;
-// };
