@@ -40,6 +40,13 @@ const { Number, User, Dropdown, ItemType, Status } = FIELD_TYPE_KEY_MAPPINGS;
   numQuery = numQuery.matchesQuery('fieldType', new Parse.Query(FieldType).equalTo('key', Number));
   const { data: _numberFields } = useParseQuery(numQuery, FetchMethod.All);
 
+  let dateQuery = new Parse.Query(CustomField).include('fieldType');
+  dateQuery = dateQuery.matchesQuery(
+    'fieldType',
+    new Parse.Query(FieldType).containedIn('key', [Date, CreatedAt, UpdatedAt]),
+  );
+  const { data: _dateFields } = useParseQuery(dateQuery, FetchMethod.All);
+
   const numberFields = useMemo(() => {
     return [
       {
@@ -52,16 +59,31 @@ const { Number, User, Dropdown, ItemType, Status } = FIELD_TYPE_KEY_MAPPINGS;
     ].concat(_numberFields || []) as CustomFieldProps[];
   }, [_numberFields]);
 
+  const dateFields = useMemo(() => {
+    return _dateFields || [];
+  }, [_dateFields]);
+
   // 下拉类型的字段
   const groupOptions = useMemo(() => {
     return _xData?.length
       ? _xData.map(c => (
-          <Select.Option value={c.key} key={c.key} fieldType={ItemType} name={c.name}>
+          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
             {c.name}
           </Select.Option>
         ))
       : [];
   }, [_xData]);
+
+  // 日期类型的字段
+  const dateOptions = useMemo(() => {
+    return dateFields?.length
+      ? dateFields.map(c => (
+          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+            {c.name}
+          </Select.Option>
+        ))
+      : [];
+  }, [dateFields]);
 
   const { groupLabel, valueLabel, valueGroupLabel } = CHART_TYPE_INFO[type];
   const ref = useRef(null);
@@ -115,7 +137,15 @@ const { Number, User, Dropdown, ItemType, Status } = FIELD_TYPE_KEY_MAPPINGS;
                     optionFilterProp="children"
                     onChange={(val: string) => {
                       handleChageType(val);
-                      setOption({ ...option, type: val });
+                      // 切换类型为折线，group=创建日期
+                      // 当前图表是折线，切换为其他类型图表，group=事项类型
+                      const group =
+                        val === BASIC_LINE_CHART
+                          ? INIT_CHART_GROUP_LINE_VALUE
+                          : type === BASIC_LINE_CHART
+                          ? INIT_CHART_GROUP_VALUE
+                          : [];
+                      setOption({ ...option, type: val, group: group });
                       setFieldValue('type', val);
                     }}
                   >
@@ -148,7 +178,7 @@ const { Number, User, Dropdown, ItemType, Status } = FIELD_TYPE_KEY_MAPPINGS;
                     }}
                     optionFilterProp="children"
                   >
-                    {groupOptions}
+                    {type === BASIC_LINE_CHART ? dateOptions : groupOptions}
                   </Select>
                 </>
               )}
