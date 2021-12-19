@@ -5,11 +5,8 @@
   "private": true,
   "scripts": {
     "build": "webpack --mode=production",
-    "build-debug": "NODE_ENV=debug webpack --mode=development",
-    "dev": "yarn start",
-    "start": "webpack server --mode=development",
-    "build-app": "sh ./build-app.sh",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
+    "build-debug": "cross-env NODE_ENV=debug webpack --mode=development",
+    "dev": "webpack --mode=development --watch"
   },
   "repository": {
     "type": "git"
@@ -59,7 +56,7 @@
     "style-loader": "^3.2.1",
     "style-resources-loader": "^1.4.1",
     "ts-loader": "^9.2.5",
-    "typescript": "^4.4.3",
+    "typescript": "^4.5.4",
     "webpack": "^5.52.1",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.0",
@@ -76,6 +73,8 @@
     "echarts": "^5.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^5.3.0"
+    "react-router-dom": "^5.3.0",
+    "rollup": "^2.61.1",
+    "swr": "^1.1.2-beta.0"
   }
 }

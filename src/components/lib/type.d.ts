@@ -27,9 +27,17 @@ export type OptionProps = {
 export type ViewProps = {
   random?: string;
   option?: OptionValue;
-  view: string;
+  view?: string;
   workspace?: Workspace;
   tenant?: Tenant;
-  sessionToken: string;
+  sessionToken?: string;
   isListView?: boolean;
+};
+
+export type CommonViewProp = {
+  id?: string;
+  echartData?: any;
+  option?: OptionValue;
+  isListView?: boolean;
+  isNoData?: boolean;
 };

@@ -115,22 +115,22 @@ module.exports = (cliEnv = {}, argv) => {
     //   pie: './components/pie-chart',
     //   // bar: './components/bar-chart',
     // },
-    entry: isProd || isDebug ? {
+    entry: {
       'basic-pie-chart': './src/components/basic-pie-chart',
       'basic-bar-chart': './src/components/basic-bar-chart',
       'basic-line-chart': './src/components/basic-line-chart',
       'basic-table-chart': './src/components/basic-table-chart',
-    } : './src/index.tsx',
+    },
     mode: isProd ? 'production' : 'development',
     output: outputConfig(isProd),
     devtool: (() => {
-      if (isProd || isDebug) {
+      // if (isProd || isDebug) {
         return 'source-map';
-      }
-      if (isDev) {
-      return 'inline-cheap-module-source-map';
-      }
-      return false;
+      // }
+      // if (isDev) {
+      //   return 'inline-cheap-module-source-map';
+      // }
+      // return false;
     })(),
     resolve: {
       extensions: ['.js', '.css', '.jsx', '.tsx', '.ts'],
@@ -234,12 +234,13 @@ module.exports = (cliEnv = {}, argv) => {
     },
   };
 
-  if (isProd || isDebug) {
+  // if (isProd || isDebug) {
     webpackConfig.externals = [
       {
         react: 'commonjs2 react',
         'react-dom': 'commonjs2 react-dom',
-        'formik':'commonjs2 formik'
+        'formik': 'commonjs2 formik',
+        'swr': 'commonjs2 swr',
       },
       function ({ context, request }, callback) {
         const dependencies = Object.keys(package.dependencies);
@@ -251,7 +252,7 @@ module.exports = (cliEnv = {}, argv) => {
         callback();
       },
     ]
-  }
+  // }
 
 
   return isProd ? webpackConfig : smp.wrap(webpackConfig);

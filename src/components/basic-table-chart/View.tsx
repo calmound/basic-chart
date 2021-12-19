@@ -1,21 +1,23 @@
+// @ts-nocheck
 import React, { useEffect, useMemo, useState } from 'react';
 import { ColumnsType } from 'antd/lib/table';
 import classNames from 'classnames';
 
-import { message, Table } from '@osui/ui';
+import { useChartQuery } from '../lib/hooks';
+
+import { Table } from '@osui/ui';
+
+import { NoData } from 'proxima-sdk/components/Components/Chart';
 
 import { ViewProps } from '../lib/type';
-import './View.less'
-import { getChartsData } from '../lib/utils';
-// @ts-ignore
-import { NoData } from 'proxima-sdk/components/Components/Chart';
-import classNames from 'classnames';
 
-const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView }) => {
+import './View.less';
+
+const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace }) => {
   const { group = [], value = [] } = option;
   const [resData, setResData] = useState([]);
-  const [noDataFlag, setNoDataFlag] = useState(false);
   const [groupHeader, setGroupHeader] = useState([]);
+  const { data, isNoData } = useChartQuery(tenant, workspace, sessionToken, option);
 
   const columns = useMemo(() => {
     const firstColumns = [
@@ -57,39 +59,20 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView })
   }, [group, groupHeader, value]);
 
   useEffect(() => {
-    if (!option?.group?.length || !option?.value?.length) {
-      setNoDataFlag(true);
-    } else {
-      setNoDataFlag(false);
-    }
-    async function fetch() {
-      try {
-        const resData: any = await getChartsData({
-          option,
-          tenant,
-          sessionToken,
-        });
-        // todo 返回的data设置setResData
-        const data = resData?.data?.payload?.data;
-        const cluster = resData?.data?.payload?.cluster;
-        setResData(data);
-        setGroupHeader(cluster);
-        if (!data?.length || !cluster?.length) {
-          setNoDataFlag(true);
-        } else {
-          setNoDataFlag(false);
-        }
-      } catch (error) {
-        message.error(error.message);
-      }
-    }
-    fetch();
-  }, [option, sessionToken, tenant]);
+    const resData = data?.payload?.data;
+    const cluster = data?.payload?.cluster;
+    setResData(resData);
+    setGroupHeader(cluster);
+  }, [data]);
 
   return (
     <>
-      {noDataFlag ? <NoData title="暂无数据，请修改图表数据配置" /> : null}
-      <div className={classNames(isListView ? 'basic-chart-table-list-wrap' : 'basic-chart-table-wrap')}>
+      {isNoData ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> : null}
+      <div
+        className={classNames(
+          isListView ? 'basic-chart-table-list-wrap' : 'basic-chart-table-wrap',
+        )}
+      >
         <Table
           className={'baisc-table'}
           columns={columns}
