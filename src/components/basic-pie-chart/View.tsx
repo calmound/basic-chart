@@ -76,7 +76,6 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
     };
   }, [data]);
 
-  console.log('%c [  ]-79', 'font-size:13px; background:pink; color:#bf2c9f;', 12212)
   return <CommonView echartData={echartData} id={id} option={option} isListView={isListView} isNoData={isNoData} />;
 };
 

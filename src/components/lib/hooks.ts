@@ -17,7 +17,7 @@ export const useChartQuery = (tenant: Tenant, workspace: Workspace, sessionToken
   const workspaceIql = `所属空间 ${IQL_CONDITION.EQUAL} '${workspace?.name}'`;
   const Iql = iql === '' ? workspaceIql : workspaceIql && iql;
 
-  const { data } = useSWR(
+  const { data, mutate } = useSWR(
     [url, group, value, type, iql, cluster, sessionToken],
     async () => {
       try {
@@ -46,5 +46,5 @@ export const useChartQuery = (tenant: Tenant, workspace: Workspace, sessionToken
     },
   );
 
-  return { data, isNoData: !(data && data?.payload?.value?.length) };
+  return { data, isNoData: !(data && (data?.payload?.value?.length || data?.payload?.data.length)) };
 };

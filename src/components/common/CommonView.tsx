@@ -9,7 +9,6 @@ import { CommonViewProp } from '../lib/type';
 
 const CommonView: React.FC<CommonViewProp> = props => {
   const { echartData, id, option, isListView, isNoData } = props;
-  console.log('%c [ id ]-12', 'font-size:13px; background:pink; color:#bf2c9f;', id)
   const [echart, setEChart] = useState(null);
 
   useEffect(() => {
