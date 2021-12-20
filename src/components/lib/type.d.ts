@@ -29,6 +29,7 @@ export type ViewProps = {
   option?: OptionValue;
   view?: string;
   workspace?: Workspace;
+  // chartData?: { legendData: []; dataValue: [] };
   tenant?: Tenant;
   sessionToken?: string;
   isListView?: boolean;

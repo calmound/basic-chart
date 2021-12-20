@@ -11,14 +11,13 @@ import { NoData } from 'proxima-sdk/components/Components/Chart';
 
 import { ViewProps } from '../lib/type';
 
-import './View.less';
+import  './View.less';
 
 const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace }) => {
-  const { group = [], value = [] } = option;
+  const { group = [], value = [], cluster = [] } = option;
   const [resData, setResData] = useState([]);
   const [groupHeader, setGroupHeader] = useState([]);
   const { data, isNoData } = useChartQuery(tenant, workspace, sessionToken, option);
-  console.log('%c [ data ]-21', 'font-size:13px; background:pink; color:#bf2c9f;', data)
 
   const columns = useMemo(() => {
     const firstColumns = [

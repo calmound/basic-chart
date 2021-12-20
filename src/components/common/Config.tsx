@@ -25,6 +25,7 @@ import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
 import { CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
 
 import { ConfigProps, GroupValue } from '../lib/type';
+import { debounce } from 'lodash';
 const { TextArea } = Input;
 
 const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } = FIELD_TYPE_KEY_MAPPINGS;
@@ -121,6 +122,14 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
     }
     return undefined;
   }, [group]);
+
+  const setIqlValue = debounce(e => {
+    setOption({
+      ...option,
+      iql: e.target.value,
+    });
+  }, 500);
+
 
   return (
     <div>
@@ -262,10 +271,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                   {...field}
                   placeholder="请输入"
                   onChange={e => {
-                    setOption({
-                      ...option,
-                      iql: e.target.value,
-                    });
+                    setIqlValue(e);
                     setFieldValue('iql', e.target.value);
                   }}
                 />

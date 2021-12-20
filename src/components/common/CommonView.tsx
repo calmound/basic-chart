@@ -23,7 +23,7 @@ const CommonView: React.FC<CommonViewProp> = props => {
 
   useEffect(() => {
     if (!isNoData) {
-      echart && echart.setOption(echartData);
+      echart && echart.setOption(echartData, true);
     }
   }, [echart, echartData, isNoData]);
 
