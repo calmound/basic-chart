@@ -13,39 +13,33 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
 
   const echartData = useMemo(() => {
     const seriesData = data?.payload?.value || [];
+    
     const legendData = data?.payload?.type || [];
-    const sortSeriesData = seriesData.sort(function (a, b) {
-      return b.value - a.value;
-    });
-
-    for (let i = 0; i < sortSeriesData.length; i++) {
-      if (i < 3) {
-        sortSeriesData[i].label = {
-          show: true,
-          formatter: '{b}: {d}%',
-        };
-        sortSeriesData[i].labelLine = {
-          show: true,
-        };
-      } else {
-        sortSeriesData[i].label = {
-          show: false,
-        };
-      }
-    }
-
+    // const sortSeriesData = seriesData.sort(function (a, b) {
+    //   return b.value - a.value;
+    // });
+    // const colors = [{normal:{color:'#4B8BFF'}}, {normal:{color:'#36B37E'}}, {normal:{color:'#FFC400'}}];
+    // if(seriesData?.length) {
+    //   for (let i = 0; i < seriesData.length; i++) {
+    //     if (i < 3) {
+    //       seriesData[i].itemStyle = colors[i];
+    //     }
+    //   }
+    // }
+    const color = ['#4B8BFF', '#36B37E', '#FFC400', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
     const pieData = {
       xAxis: {
         show: false,
       },
+      color: color,
       series: [
         // 饼状图数值名称都写在series中
         {
           type: 'pie',
           stillShowZeroSum: false,
-          data: sortSeriesData,
+          data: seriesData,
           radius: '70%',
-          center: ['50%', '45%'],
+          center: ['50%', '50%'],
           legndHoverLink: true,
           label: {
             normal: {
@@ -53,9 +47,13 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
               formatter: '{b}: {d}%',
             },
           },
+          label: {
+            show: true,
+          },
         },
       ],
       legend: {
+        show: !isListView,
         origin: 'vertical',
         x: 'center',
         bottom: 0,
@@ -64,8 +62,12 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
         },
         data: legendData,
         formatter: '{name}',
+        label: {
+          show: true,
+          formatter: '{b}: {d}%',
+        },
       },
-      color: ['#0C62FF', '#36B37E', '#FFAB00', '#6554C0', '#00B8D9', '#FF8F73', '#DE350B', '#C26A00'],
+      
     };
 
     return {
