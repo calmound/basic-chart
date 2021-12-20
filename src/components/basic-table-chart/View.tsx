@@ -18,8 +18,6 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
   const [resData, setResData] = useState([]);
   const [groupHeader, setGroupHeader] = useState([]);
   const { data, isNoData } = useChartQuery(tenant, workspace, sessionToken, option);
-  const flag = !group?.length || !value?.length || !cluster?.length ? false : true;
-
 
   const columns = useMemo(() => {
     const firstColumns = [
@@ -69,7 +67,7 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
 
   return (
     <>
-      {!isNoData || !flag ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> : null}
+      {isNoData ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> : null}
       <div
         className={classNames(
           isListView ? 'basic-chart-table-list-wrap' : 'basic-chart-table-wrap',

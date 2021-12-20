@@ -13,20 +13,10 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
 
   const echartData = useMemo(() => {
     const seriesData = data?.payload?.value || [];
-    
     const legendData = data?.payload?.type || [];
-    // const sortSeriesData = seriesData.sort(function (a, b) {
-    //   return b.value - a.value;
-    // });
-    // const colors = [{normal:{color:'#4B8BFF'}}, {normal:{color:'#36B37E'}}, {normal:{color:'#FFC400'}}];
-    // if(seriesData?.length) {
-    //   for (let i = 0; i < seriesData.length; i++) {
-    //     if (i < 3) {
-    //       seriesData[i].itemStyle = colors[i];
-    //     }
-    //   }
-    // }
-    const color = ['#4B8BFF', '#36B37E', '#FFC400', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
+    const color = ['#4B8BFF', '#36B37E', '#FFC400', '#2EC7C9', '#B6A2DE', '#5AB1EF', '#FFB980', '#D87A80',
+      '#8D98B3', '#E5CF0D', '#97B552', '#95706D', '#91B6F8', '#DC69AA', '#07A2A4', '#9A7FD1', '#588DD5', '#F5994E',
+      '#FF95AD', '#9096BB', '#D5B394'];
     const pieData = {
       xAxis: {
         show: false,
@@ -67,7 +57,7 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
           formatter: '{b}: {d}%',
         },
       },
-      
+
     };
 
     return {

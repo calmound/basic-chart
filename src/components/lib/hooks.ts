@@ -46,5 +46,5 @@ export const useChartQuery = (tenant: Tenant, workspace: Workspace, sessionToken
     },
   );
 
-  return { data, isNoData: !(data && (data?.payload?.value?.length || data?.payload?.data?.length)) };
+  return { data, isNoData: !(data && (data?.payload?.value?.length || data?.payload?.data?.length || data?.payload?.cluster?.length )) };
 };
