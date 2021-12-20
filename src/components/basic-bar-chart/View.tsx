@@ -20,7 +20,6 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
         show: true,
       },
       yAxis: {},
-      // formatter: '{b}: {c}',
       series: seriesValue,
     };
     return {

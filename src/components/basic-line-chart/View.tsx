@@ -26,7 +26,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
     return {
       ...lineData,
       tooltip: {
-        formatter: '{b}: {c} 占比: {d}%',
+        formatter: '{b}: {c}',
       },
     };
   }, [data]);
