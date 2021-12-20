@@ -1,31 +1,43 @@
+// @ts-nocheck
 import React, { useMemo, useRef } from 'react';
 import { Input, Select } from '@osui/ui';
 import { Formik } from 'formik';
-// @ts-ignore
+
 import { DropdownInput } from 'proxima-sdk/components/Components/Chart';
-// @ts-ignore
+
 import { FormField } from 'proxima-sdk/components/Components/Common';
-// @ts-ignore
-import { FIELD_TYPE_KEY_MAPPINGS, INIT_CHART_GROUP_LINE_VALUE, INIT_CHART_GROUP_VALUE } from 'proxima-sdk/lib/Global';
-// @ts-ignore
+
+import {
+  BASIC_LINE_CHART,
+  BASIC_PIE_CHART,
+  BASIC_TABLE_CHART,
+  FIELD_TYPE_KEY_MAPPINGS,
+  INIT_CHART_GROUP_LINE_VALUE,
+  INIT_CHART_GROUP_VALUE,
+} from 'proxima-sdk/lib/Global';
+
 import { CustomField, FieldType } from 'proxima-sdk/schema/models';
-// @ts-ignore
+
 import Parse from 'proxima-sdk/lib/Parse';
-// @ts-ignore
 import { CustomField as CustomFieldProps } from 'proxima-sdk/schema/types/models';
-// @ts-ignore
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
 
-import { BASIC_LINE_CHART, BASIC_PIE_CHART, BASIC_TABLE_CHART, CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
+import { CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
+
 import { ConfigProps, GroupValue } from '../lib/type';
+import { debounce } from 'lodash';
 const { TextArea } = Input;
 
 const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } = FIELD_TYPE_KEY_MAPPINGS;
 
 /**
  * todo.....
+ * option 回显后续在验证
+ * value 搜索有问题
+ * 下拉value是数组，所以需要使用Dropdown
+ * table 等待新后端结构，然后适配
  */
- const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
+const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
   const { type, group, value, cluster, iql } = option;
   // 获取数据源类型的自定义字段
   let selectQuery = new Parse.Query(CustomField).include('fieldType');
@@ -111,6 +123,14 @@ const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } =
     return undefined;
   }, [group]);
 
+  const setIqlValue = debounce(e => {
+    setOption({
+      ...option,
+      iql: e.target.value,
+    });
+  }, 500);
+
+
   return (
     <div>
       <Formik innerRef={ref} initialValues={initialValues} onSubmit={() => {}}>
@@ -136,16 +156,16 @@ const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } =
                     {...field}
                     optionFilterProp="children"
                     onChange={(val: string) => {
-                      handleChageType(val);
                       // 切换类型为折线，group=创建日期
                       // 当前图表是折线，切换为其他类型图表，group=事项类型
-                      const group =
+                      const _group =
                         val === BASIC_LINE_CHART
                           ? INIT_CHART_GROUP_LINE_VALUE
                           : type === BASIC_LINE_CHART
                           ? INIT_CHART_GROUP_VALUE
-                          : [];
-                      setOption({ ...option, type: val, group: group });
+                          : group;
+                      handleChageType(val);
+                      setOption({ ...option, type: val, group: _group });
                       setFieldValue('type', val);
                     }}
                   >
@@ -228,9 +248,6 @@ const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } =
                     optionFilterProp="children"
                   >
                     {groupOptions}
-                    {/* <Select.Option key={'status'} fieldType={'Status'} name="状态" value={'status'}>
-                      状态
-                    </Select.Option> */}
                   </Select>
                 )}
               </FormField>
@@ -254,10 +271,7 @@ const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } =
                   {...field}
                   placeholder="请输入"
                   onChange={e => {
-                    setOption({
-                      ...option,
-                      iql: e.target.value,
-                    });
+                    setIqlValue(e);
                     setFieldValue('iql', e.target.value);
                   }}
                 />

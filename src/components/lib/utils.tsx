@@ -30,6 +30,11 @@ export const getChartsData = async (props: { option: any; tenant: any; sessionTo
     );
     return resData;
   } catch (error) {
+    /**
+     * todo 性能问题，此处会调用两次接口显示两次message，
+     * 一次200 Fail to load response data :No content available for preflight request 
+     * 一次正常的500
+     */
     message.error(error.message);
   }
 };

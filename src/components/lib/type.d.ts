@@ -27,16 +27,18 @@ export type OptionProps = {
 export type ViewProps = {
   random?: string;
   option?: OptionValue;
-  view: string;
+  view?: string;
   workspace?: Workspace;
   // chartData?: { legendData: []; dataValue: [] };
   tenant?: Tenant;
-  sessionToken: string;
+  sessionToken?: string;
   isListView?: boolean;
 };
 
-// // 不同的图表数据格式不一样
-// export type ChartDataProps = {
-//   legendData?: any;
-//   dataValue?: any;
-// };
+export type CommonViewProp = {
+  id?: string;
+  echartData?: any;
+  option?: OptionValue;
+  isListView?: boolean;
+  isNoData?: boolean;
+};
