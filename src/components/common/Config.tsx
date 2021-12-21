@@ -47,6 +47,14 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   );
   const { data: _xData } = useParseQuery(selectQuery, FetchMethod.All);
 
+  // 获取列纬度的自定义字段
+  let clusterQuery = new Parse.Query(CustomField).include('fieldType');
+  clusterQuery = clusterQuery.matchesQuery(
+    'fieldType',
+    new Parse.Query(FieldType).containedIn('key', [Dropdown, ItemType, Status]),
+  );
+  const { data: _clusterData } = useParseQuery(clusterQuery, FetchMethod.All);
+
   // 获取数值类型的自定义字段
   let numQuery = new Parse.Query(CustomField).include('fieldType');
   numQuery = numQuery.matchesQuery('fieldType', new Parse.Query(FieldType).equalTo('key', Number));
@@ -85,6 +93,17 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
         ))
       : [];
   }, [_xData]);
+
+  // 列纬度的字段
+  const clusterOptions = useMemo(() => {
+    return _clusterData?.length
+      ? _clusterData.map(c => (
+          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+            {c.name}
+          </Select.Option>
+        ))
+      : [];
+  }, [_clusterData]);
 
   // 日期类型的字段
   const dateOptions = useMemo(() => {
@@ -247,7 +266,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                     }}
                     optionFilterProp="children"
                   >
-                    {groupOptions}
+                    {clusterOptions}
                   </Select>
                 )}
               </FormField>
