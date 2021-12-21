@@ -37,9 +37,6 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
               formatter: '{b}: {d}%',
             },
           },
-          label: {
-            show: true,
-          },
         },
       ],
       legend: {
