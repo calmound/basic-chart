@@ -15,7 +15,7 @@ export const useChartQuery = (tenant: Tenant, workspace: Workspace, sessionToken
   const url = `${globalThis.env.PROXIMA_GATEWAY}/parse/api/report/${tenant.key}/${type}/search`;
 
   const workspaceIql = `所属空间 ${IQL_CONDITION.EQUAL} '${workspace?.name}'`;
-  const Iql = iql === '' ? workspaceIql : workspaceIql && iql;
+  const Iql = iql === '' ? workspaceIql : `${workspaceIql} and ${iql}`;
 
   const { data, mutate } = useSWR(
     [url, group, value, type, iql, cluster, sessionToken],

@@ -21,6 +21,7 @@ import { CustomField, FieldType } from 'proxima-sdk/schema/models';
 import Parse from 'proxima-sdk/lib/Parse';
 import { CustomField as CustomFieldProps } from 'proxima-sdk/schema/types/models';
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
+import { DataFilte } from 'proxima-sdk/components/Components/Chart'
 
 import { CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
 
@@ -87,10 +88,10 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   const groupOptions = useMemo(() => {
     return _xData?.length
       ? _xData.map(c => (
-          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
-            {c.name}
-          </Select.Option>
-        ))
+        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+          {c.name}
+        </Select.Option>
+      ))
       : [];
   }, [_xData]);
 
@@ -98,10 +99,10 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   const clusterOptions = useMemo(() => {
     return _clusterData?.length
       ? _clusterData.map(c => (
-          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
-            {c.name}
-          </Select.Option>
-        ))
+        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+          {c.name}
+        </Select.Option>
+      ))
       : [];
   }, [_clusterData]);
 
@@ -109,10 +110,10 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   const dateOptions = useMemo(() => {
     return dateFields?.length
       ? dateFields.map(c => (
-          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
-            {c.name}
-          </Select.Option>
-        ))
+        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+          {c.name}
+        </Select.Option>
+      ))
       : [];
   }, [dateFields]);
 
@@ -181,8 +182,8 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                         val === BASIC_LINE_CHART
                           ? INIT_CHART_GROUP_LINE_VALUE
                           : type === BASIC_LINE_CHART
-                          ? INIT_CHART_GROUP_VALUE
-                          : group;
+                            ? INIT_CHART_GROUP_VALUE
+                            : group;
                       handleChageType(val);
                       setOption({ ...option, type: val, group: _group });
                       setFieldValue('type', val);
@@ -284,7 +285,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                 重置筛选
               </span>
             </div>
-            <FormField label={'IQL查询'} name="iql">
+            {/* <FormField label={'IQL查询'} name="iql">
               {({ field }) => (
                 <TextArea
                   {...field}
@@ -295,7 +296,11 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                   }}
                 />
               )}
-            </FormField>
+            </FormField> */}
+            <DataFilte
+              setOption={setOption}
+              option={option}
+            />
           </>
         )}
       </Formik>
