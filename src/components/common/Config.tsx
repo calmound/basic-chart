@@ -184,7 +184,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                           ? INIT_CHART_GROUP_VALUE
                           : group;
                       handleChageType(val);
-                      setOption({ ...option, type: val, group: _group });
+                      setOption({ ...option, type: val, group: _group , cluster: []});
                       setFieldValue('type', val);
                     }}
                   >
