@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ColumnsType } from 'antd/lib/table';
 import classNames from 'classnames';
 
-import { useChartQuery } from '../lib/hooks';
+import { useChartQuery } from 'proxima-sdk/components/Components/Chart';
 
 import { Table } from '@osui/ui';
 
@@ -36,6 +36,7 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
           align: 'center',
           children: value.map(k => ({
             title: k.name,
+            key: `${item}-${k.key}`,
             width: 130,
             align: 'center',
             render: (text, record) => {

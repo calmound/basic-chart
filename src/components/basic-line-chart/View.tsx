@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useMemo } from 'react';
 
-import { useChartQuery } from '../lib/hooks';
+import { useChartQuery } from 'proxima-sdk/components/Components/Chart';
 
 import CommonView from '../common/CommonView';
 import { ViewProps } from '../lib/type';
