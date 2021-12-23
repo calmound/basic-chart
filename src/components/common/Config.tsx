@@ -292,7 +292,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                   placeholder="请输入"
                   onChange={e => {
                     setIqlValue(e);
-                    setFieldValue('iql', e.target.value);
+                    setFieldValue('iql', e.target.value)
                   }}
                 />
               )}
