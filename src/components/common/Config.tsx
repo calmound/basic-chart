@@ -279,7 +279,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                 className={'option-reset'}
                 onClick={() => {
                   setFieldValue('iql', '');
-                  setOption({ ...option, iql: '' });
+                  setOption({ ...option, iql: '', _selectors:null });
                 }}
               >
                 重置筛选
