@@ -21,7 +21,7 @@ import { CustomField, FieldType } from 'proxima-sdk/schema/models';
 import Parse from 'proxima-sdk/lib/Parse';
 import { CustomField as CustomFieldProps } from 'proxima-sdk/schema/types/models';
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
-import { DataFilte } from 'proxima-sdk/components/Components/Chart'
+import { FilterQuery } from 'proxima-sdk/components/Components/Chart'
 
 import { CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
 
@@ -279,7 +279,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                 className={'option-reset'}
                 onClick={() => {
                   setFieldValue('iql', '');
-                  setOption({ ...option, iql: '', _selectors:null });
+                  setOption({ ...option, iql: '', _selectors: '' });
                 }}
               >
                 重置筛选
@@ -297,7 +297,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                 />
               )}
             </FormField> */}
-            <DataFilte
+            <FilterQuery
               setOption={setOption}
               option={option}
             />
