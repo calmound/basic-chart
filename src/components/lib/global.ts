@@ -73,5 +73,5 @@ export const INIT_OPTION = {
   group: [],
   cluster: [],
   iql: '',
-  selectors:'',
+  selectors:{},
 };
