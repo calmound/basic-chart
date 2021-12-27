@@ -17,13 +17,13 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
   const { group = [], value = [], cluster = [] } = option;
   const [resData, setResData] = useState([]);
   const [groupHeader, setGroupHeader] = useState([]);
-  const { chartData, isNoData, isError } = useChartQuery(tenant, workspace, sessionToken, option);
+  const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
 
   useEffect(() => {
     if(isFetchError){
-      isFetchError(isError);
+      isFetchError(fetchError);
     }
-  }, [isError, isFetchError])
+  }, [fetchError, isFetchError])
 
   const columns = useMemo(() => {
     const firstColumns = [

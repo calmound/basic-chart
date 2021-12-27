@@ -9,13 +9,13 @@ import { ViewProps } from '../lib/type';
 const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionToken, isListView, workspace, isFetchError }) {
   const id = random ? 'basic-pie-chart_' + random : 'basic-pie-chart';
 
-  const { chartData, isNoData, isError } = useChartQuery(tenant, workspace, sessionToken, option);
+  const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
 
   useEffect(() => {
     if(isFetchError){
-      isFetchError(isError);
+      isFetchError(fetchError);
     }
-  }, [isError, isFetchError])
+  }, [fetchError, isFetchError])
 
   const echartData = useMemo(() => {
     const seriesData = chartData?.payload?.value || [];

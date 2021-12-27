@@ -273,6 +273,8 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
               </FormField>
             ) : null}
 
+            <div style={{height:'16px'}}></div>
+
             <div className={'form-main-title'}>
               <strong className={'info-title'}>数据筛选</strong>
               <span

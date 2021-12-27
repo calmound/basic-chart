@@ -8,12 +8,12 @@ import { ViewProps } from '../lib/type';
 
 const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace, isFetchError}) => {
   const id = random ? 'basic-bar-chart_' + random : 'basic-bar-chart';
-  const { chartData, isNoData = true, isError } = useChartQuery(tenant, workspace, sessionToken, option);
+  const { chartData, isNoData = true, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
   useEffect(() => {
     if(isFetchError){
-      isFetchError(isError);
+      isFetchError(fetchError);
     }
-  }, [isError, isFetchError])
+  }, [fetchError, isFetchError])
   const echartData = useMemo(() => {
     const xAxisData = chartData?.payload?.xAxis || [];
     const seriesValue = chartData?.payload?.value || [];
