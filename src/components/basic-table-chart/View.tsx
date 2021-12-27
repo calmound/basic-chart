@@ -13,11 +13,17 @@ import { ViewProps } from '../lib/type';
 
 import  './View.less';
 
-const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace }) => {
+const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace, isFetchError }) => {
   const { group = [], value = [], cluster = [] } = option;
   const [resData, setResData] = useState([]);
   const [groupHeader, setGroupHeader] = useState([]);
-  const { data, isNoData } = useChartQuery(tenant, workspace, sessionToken, option);
+  const { chartData, isNoData, isError } = useChartQuery(tenant, workspace, sessionToken, option);
+
+  useEffect(() => {
+    if(isFetchError){
+      isFetchError(isError);
+    }
+  }, [isError, isFetchError])
 
   const columns = useMemo(() => {
     const firstColumns = [
@@ -60,11 +66,11 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
   }, [group, groupHeader, value]);
 
   useEffect(() => {
-    const resData = data?.payload?.data;
-    const cluster = data?.payload?.cluster;
+    const resData = chartData?.payload?.data;
+    const cluster = chartData?.payload?.cluster;
     setResData(resData);
     setGroupHeader(cluster);
-  }, [data]);
+  }, [chartData]);
 
   return (
     <>

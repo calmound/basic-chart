@@ -1,19 +1,25 @@
 // @ts-nocheck
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useChartQuery } from 'proxima-sdk/components/Components/Chart';
 
 import CommonView from '../common/CommonView';
 import { ViewProps } from '../lib/type';
 
-const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionToken, isListView, workspace }) {
+const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionToken, isListView, workspace, isFetchError }) {
   const id = random ? 'basic-pie-chart_' + random : 'basic-pie-chart';
 
-  const { data, isNoData } = useChartQuery(tenant, workspace, sessionToken, option);
+  const { chartData, isNoData, isError } = useChartQuery(tenant, workspace, sessionToken, option);
+
+  useEffect(() => {
+    if(isFetchError){
+      isFetchError(isError);
+    }
+  }, [isError, isFetchError])
 
   const echartData = useMemo(() => {
-    const seriesData = data?.payload?.value || [];
-    const legendData = data?.payload?.type || [];
+    const seriesData = chartData?.payload?.value || [];
+    const legendData = chartData?.payload?.type || [];
     const color = ['#4B8BFF', '#36B37E', '#FFC400', '#2EC7C9', '#B6A2DE', '#5AB1EF', '#FFB980', '#D87A80',
       '#8D98B3', '#E5CF0D', '#97B552', '#95706D', '#91B6F8', '#DC69AA', '#07A2A4', '#9A7FD1', '#588DD5', '#F5994E',
       '#FF95AD', '#9096BB', '#D5B394'];
@@ -63,7 +69,7 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
         formatter: '{b}: {c} 占比: {d}%',
       },
     };
-  }, [data]);
+  }, [chartData]);
 
   return <CommonView echartData={echartData} id={id} option={option} isListView={isListView} isNoData={isNoData} />;
 };

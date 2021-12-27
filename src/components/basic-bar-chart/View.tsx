@@ -1,18 +1,22 @@
 // @ts-nocheck
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useChartQuery } from 'proxima-sdk/components/Components/Chart';
 
 import CommonView from '../common/CommonView';
 import { ViewProps } from '../lib/type';
 
-const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace }) => {
+const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace, isFetchError}) => {
   const id = random ? 'basic-bar-chart_' + random : 'basic-bar-chart';
-  const { data, isNoData = true } = useChartQuery(tenant, workspace, sessionToken, option);
-
+  const { chartData, isNoData = true, isError } = useChartQuery(tenant, workspace, sessionToken, option);
+  useEffect(() => {
+    if(isFetchError){
+      isFetchError(isError);
+    }
+  }, [isError, isFetchError])
   const echartData = useMemo(() => {
-    const xAxisData = data?.payload?.xAxis || [];
-    const seriesValue = data?.payload?.value || [];
+    const xAxisData = chartData?.payload?.xAxis || [];
+    const seriesValue = chartData?.payload?.value || [];
 
     const xyData = {
       xAxis: {
@@ -28,7 +32,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
         formatter: '{b}: {c}',
       },
     };
-  }, [data]);
+  }, [chartData]);
 
   return <CommonView echartData={echartData} id={id} option={option} isListView={isListView} isNoData={isNoData} />;
 };
