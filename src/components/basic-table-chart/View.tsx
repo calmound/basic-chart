@@ -13,11 +13,17 @@ import { ViewProps } from '../lib/type';
 
 import  './View.less';
 
-const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace }) => {
+const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace, isFetchError }) => {
   const { group = [], value = [], cluster = [] } = option;
   const [resData, setResData] = useState([]);
   const [groupHeader, setGroupHeader] = useState([]);
-  const { data, isNoData } = useChartQuery(tenant, workspace, sessionToken, option);
+  const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
+
+  useEffect(() => {
+    if(isFetchError){
+      isFetchError(fetchError);
+    }
+  }, [fetchError, isFetchError])
 
   const columns = useMemo(() => {
     const firstColumns = [
@@ -60,11 +66,11 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
   }, [group, groupHeader, value]);
 
   useEffect(() => {
-    const resData = data?.payload?.data;
-    const cluster = data?.payload?.cluster;
+    const resData = chartData?.payload?.data;
+    const cluster = chartData?.payload?.cluster;
     setResData(resData);
     setGroupHeader(cluster);
-  }, [data]);
+  }, [chartData]);
 
   return (
     <>
@@ -80,7 +86,7 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
           dataSource={resData}
           bordered
           size={isListView ? 'small' : 'middle'}
-          scroll={{ x: 'max-content', y: isListView ? 200 : 500 }}
+          scroll={{ x: 'max-content', y: isListView ? 280 : 500 }}
           pagination={false}
         />
       </div>
