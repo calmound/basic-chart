@@ -86,7 +86,7 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
           dataSource={resData}
           bordered
           size={isListView ? 'small' : 'middle'}
-          scroll={{ x: 'max-content', y: isListView ? 200 : 500 }}
+          scroll={{ x: 'max-content', y: isListView ? 280 : 500 }}
           pagination={false}
         />
       </div>
