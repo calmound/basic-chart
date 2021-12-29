@@ -33,7 +33,7 @@ export type ViewProps = {
   tenant?: Tenant;
   sessionToken?: string;
   isListView?: boolean;
-  isFetchError?: React.Dispatch<boolean>;
+  setFetchError?: React.Dispatch<boolean>;
 };
 
 export type CommonViewProp = {

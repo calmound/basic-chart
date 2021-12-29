@@ -6,14 +6,15 @@ import { useChartQuery } from 'proxima-sdk/components/Components/Chart';
 import CommonView from '../common/CommonView';
 import { ViewProps } from '../lib/type';
 
-const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace, isFetchError}) => {
+const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace, setFetchError}) => {
   const id = random ? 'basic-bar-chart_' + random : 'basic-bar-chart';
   const { chartData, isNoData = true, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
   useEffect(() => {
-    if(isFetchError){
-      isFetchError(fetchError);
+    if(setFetchError){
+      setFetchError(fetchError);
+      console.log('%c [ fetchError ]-15', 'font-size:13px; background:pink; color:#bf2c9f;', fetchError)
     }
-  }, [fetchError, isFetchError])
+  }, [fetchError, setFetchError])
   const echartData = useMemo(() => {
     const xAxisData = chartData?.payload?.xAxis || [];
     const seriesValue = chartData?.payload?.value || [];
