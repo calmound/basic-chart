@@ -6,16 +6,16 @@ import { useChartQuery } from 'proxima-sdk/components/Components/Chart';
 import CommonView from '../common/CommonView';
 import { ViewProps } from '../lib/type';
 
-const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionToken, isListView, workspace, isFetchError }) {
+const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionToken, isListView, workspace, setFetchError }) {
   const id = random ? 'basic-pie-chart_' + random : 'basic-pie-chart';
 
   const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
 
   useEffect(() => {
-    if(isFetchError){
-      isFetchError(fetchError);
+    if(setFetchError){
+      setFetchError(fetchError);
     }
-  }, [fetchError, isFetchError])
+  }, [fetchError, setFetchError])
 
   const echartData = useMemo(() => {
     const seriesData = chartData?.payload?.value || [];

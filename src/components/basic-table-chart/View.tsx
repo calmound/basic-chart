@@ -13,17 +13,17 @@ import { ViewProps } from '../lib/type';
 
 import  './View.less';
 
-const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace, isFetchError }) => {
+const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace, setFetchError }) => {
   const { group = [], value = [], cluster = [] } = option;
   const [resData, setResData] = useState([]);
   const [groupHeader, setGroupHeader] = useState([]);
   const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
 
   useEffect(() => {
-    if(isFetchError){
-      isFetchError(fetchError);
+    if(setFetchError){
+      setFetchError(fetchError);
     }
-  }, [fetchError, isFetchError])
+  }, [fetchError, setFetchError])
 
   const columns = useMemo(() => {
     const firstColumns = [
