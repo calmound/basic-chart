@@ -5,7 +5,7 @@ import { isEqual, remove } from 'lodash';
 import { OverflowTooltip } from 'proxima-sdk/components/Components/Common';
 
 import { ConfigProps, GroupValue } from '../lib/type';
-import { ConfigAddIndex } from '.';
+import TargetModal from './TargetModal';
 const { TextArea } = Input;
 
 /**
@@ -14,10 +14,9 @@ const { TextArea } = Input;
  * 展示结果逻辑可能待修改
  * 查询接口可能会更改
  * 未对接口
- * 抽离重复代码
  * 配置项暂未开发
  */
-const ConfigCount: React.FC<ConfigProps> = ({ option, setOption }) => {
+const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
   const { textAreaValue: _textAreaValue, target: _target, unitName: _unitName, unit: _unit } = option
   const [textAreaValue, setTextAreaValue] = useState(_textAreaValue ? _textAreaValue : '');
   const [isAddIndex, setAddIndex] = useState(false);
@@ -58,7 +57,6 @@ const ConfigCount: React.FC<ConfigProps> = ({ option, setOption }) => {
 
   return (
     <div>
-      <>
         <div>
           <div className={'form-main-title'}>
             <strong className={'info-title'}>指标</strong>
@@ -73,7 +71,7 @@ const ConfigCount: React.FC<ConfigProps> = ({ option, setOption }) => {
                 重置图表
               </span> */}
           </div>
-          <div>
+         
             {target.map(item =>
               <div className='form-main-target'>
                 <OverflowTooltip maxline={1} title={item.targetName} >{item.targetName}</OverflowTooltip>
@@ -83,8 +81,8 @@ const ConfigCount: React.FC<ConfigProps> = ({ option, setOption }) => {
                 </div>
               </div>
             )}
-          </div>
-          <Button className='form-add-target' onClick={() => setAddIndex(true)}>+添加指标</Button>
+          
+          <Button className='form-add-target' onClick={() => {console.log('1111');setAddIndex(true)}}>+添加指标</Button>
         </div>
         <div>
           <div className={'form-main-title'}>
@@ -107,11 +105,10 @@ const ConfigCount: React.FC<ConfigProps> = ({ option, setOption }) => {
         <Button className='form-target-save' onClick={handleSave}>确定</Button>
         {isAddIndex ?
           <Modal className='form-target-modal' title="添加指标" visible={isAddIndex} onOk={handleOkProps} onCancel={() => { setAddIndex(false); setAddTarget({}) }} width={450}>
-            <ConfigAddIndex setAddTarget={setAddTarget} addTarget={addTarget} />
+            <TargetModal setAddTarget={setAddTarget} addTarget={addTarget} />
           </Modal> : null}
-      </>
     </div>
   );
 };
 
-export default ConfigCount;
+export default CountOption;

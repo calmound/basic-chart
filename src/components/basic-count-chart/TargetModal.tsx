@@ -27,7 +27,7 @@ import { ConfigProps, GroupValue } from '../lib/type';
 import { Input } from '@osui/ui';
 
 const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } = FIELD_TYPE_KEY_MAPPINGS;
-const ConfigAddIndex: React.FC<ConfigProps> = ({ addTarget, setAddTarget }) => {
+const TargetModal: React.FC<ConfigProps> = ({ addTarget, setAddTarget }) => {
 
   useEffect(()=>{
     if(!addTarget?.id){
@@ -145,4 +145,4 @@ const ConfigAddIndex: React.FC<ConfigProps> = ({ addTarget, setAddTarget }) => {
   );
 };
 
-export default ConfigAddIndex;
+export default TargetModal;
