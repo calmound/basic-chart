@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { ConfigCount } from '../common';
+import { Config } from '../common';
 import { INIT_OPTION } from '../lib/global';
 import { OptionProps } from '../lib/type';
 
 const Option: React.FC<OptionProps> = ({ option = INIT_OPTION, ...defaultProps }) => {
-  return <ConfigCount {...defaultProps} option={option} />;
+  return <Config {...defaultProps} option={option} />;
 };
 
 export default Option;

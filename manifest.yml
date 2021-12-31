@@ -27,6 +27,13 @@ modules:
       description: 事项类型状态分布
       loadType: RemoteJs
       icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFKSURBVHic7dshbgJBGEDhf5s1CHAUTYJG9wSEpOi63gCB6C1AILgBDl3VE6DRBFEHshfYCkQVvGYzLJPwPrWInZ28zEDY7BZVVVWhi57uPYHcGQgYCJSTxb2nkDdXEDAQMBAwEDAQMBAwEDAQMBAwEDAQMBAwECh2395RvKbwlut1bjFQHk71Tuy2I9qttJPJUfE6r7fFpqOI8fDv8+or1ZTy4hYDBgIGAgYCBgIGAgYCBgIGAgYCBgJlqoGmo1Qj5cUVBAwEDAQMBJJ9STfxKN/yPWLQOx/vjxGz9e2v6QoCBgIGAgYCBgIGAgYCBgIGAgYCBgLJ/ot9fqQa6X8GvWau6QoCBgIGAgYCBgLJfsWaeATv7SXiuXM+Pv1EbLa3v6YrCBgIGAgYCBgIGAgYCBgIGAgYCJT9br0TOw/wKlSEbxwitxgwEPgFQsgmEpUhNsYAAAAASUVORK5CYII=
+    # - key: basic-count-chart
+    #   resource: basic-count-chart
+    #   name: 计算
+    #   description: 计算
+    #   loadType: RemoteJs
+    #   icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFKSURBVHic7dshbgJBGEDhf5s1CHAUTYJG9wSEpOi63gCB6C1AILgBDl3VE6DRBFEHshfYCkQVvGYzLJPwPrWInZ28zEDY7BZVVVWhi57uPYHcGQgYCJSTxb2nkDdXEDAQMBAwEDAQMBAwEDAQMBAwEDAQMBAwECh2395RvKbwlut1bjFQHk71Tuy2I9qttJPJUfE6r7fFpqOI8fDv8+or1ZTy4hYDBgIGAgYCBgIGAgYCBgIGAgYCBgJlqoGmo1Qj5cUVBAwEDAQMBJJ9STfxKN/yPWLQOx/vjxGz9e2v6QoCBgIGAgYCBgIGAgYCBgIGAgYCBgLJ/ot9fqQa6X8GvWau6QoCBgIGAgYCBgLJfsWaeATv7SXiuXM+Pv1EbLa3v6YrCBgIGAgYCBgIGAgYCBgIGAgYCJT9br0TOw/wKlSEbxwitxgwEPgFQsgmEpUhNsYAAAAASUVORK5CYII=
+
 
 resources:
   - key: basic-pie-chart
@@ -37,3 +44,5 @@ resources:
     path: ./dist/basic-line-chart
   - key: basic-table-chart
     path: ./dist/basic-table-chart
+  # - key: basic-count-chart
+  #   path: ./dist/basic-count-chart

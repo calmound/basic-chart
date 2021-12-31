@@ -19,6 +19,7 @@ export const BASIC_PIE_CHART = 'basic-pie-chart';
 export const BASIC_LINE_CHART = 'basic-line-chart';
 export const BASIC_BAR_CHART = 'basic-bar-chart';
 export const BASIC_TABLE_CHART = 'basic-table-chart';
+// export const BASIC_COUNT_CHART = 'basic-count-chart';
 
 export const CHART_TYPE_INFO = {
   [BASIC_PIE_CHART]: {

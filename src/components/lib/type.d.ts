@@ -11,6 +11,10 @@ export type OptionValue = {
   cluster: GroupValue[];
   iql?: string;
   w?: number;
+  textAreaValue?: string;
+  target?: any;
+  unitName?: string;
+  unit?: string;
 };
 
 export type ConfigProps = {
@@ -18,6 +22,8 @@ export type ConfigProps = {
   view?: string;
   option: OptionValue;
   handleChageType?: (type: string) => void;
+  setAddTarget?: React.Dispatch<any>;
+  addTarget?: any;
 };
 
 export type OptionProps = {
