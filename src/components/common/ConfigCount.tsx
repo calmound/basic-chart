@@ -14,6 +14,8 @@ const { TextArea } = Input;
  * 展示结果逻辑可能待修改
  * 查询接口可能会更改
  * 未对接口
+ * 抽离重复代码
+ * 配置项暂未开发
  */
 const ConfigCount: React.FC<ConfigProps> = ({ option, setOption }) => {
   const { textAreaValue: _textAreaValue, target: _target, unitName: _unitName, unit: _unit } = option
