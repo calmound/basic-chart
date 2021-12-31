@@ -82,7 +82,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
               </div>
             )}
           
-          <Button className='form-add-target' onClick={() => {console.log('1111');setAddIndex(true)}}>+添加指标</Button>
+          <Button className='form-add-target' onClick={() => {setAddIndex(true)}}>+添加指标</Button>
         </div>
         <div>
           <div className={'form-main-title'}>
