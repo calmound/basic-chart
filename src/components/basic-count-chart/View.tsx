@@ -1,21 +1,20 @@
 // @ts-nocheck
 import React, { useEffect, useMemo } from 'react';
 
-import { useChartQuery } from 'proxima-sdk/components/Components/Chart';
+import { useChartQueryCount } from 'proxima-sdk/components/Components/Chart';
 
 import CommonView from '../common/CommonView';
 import { ViewProps } from '../lib/type';
 import classNames from 'classnames';
 import  './View.less';
-
 /**
  * todo
- * 查询接口重写
+ * 接口调试之后略微修改
+ * view修改
  */
-
 const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace, setFetchError }) => {
   const id = random ? 'basic-line-chart_' + random : 'basic-line-chart';
-  const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
+  const { chartData, isNoData, fetchError } = useChartQueryCount(tenant, workspace, sessionToken, option);
 
   useEffect(() => {
     if(setFetchError){
@@ -44,9 +43,8 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
     };
   }, [chartData]);
 
-  // return <CommonView echartData={echartData} id={id} option={option} isListView={isListView} isNoData={isNoData} />;
   return <div id={id} className={classNames(isListView ? 'basic-chart-count-list' : 'basic-chart-count-detail')} >
-    <span className={classNames('view-filter-data')}><span>50.0</span><span style={{float:option?.unit}}>{option?.unitName}</span></span>
+    <span className={classNames('view-filter-data')}><span>34.0</span><span style={{float:option?.unit}}>{option?.unitName}</span></span>
   </div>
 };
 
