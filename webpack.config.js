@@ -121,6 +121,7 @@ module.exports = (cliEnv = {}, argv) => {
       'basic-line-chart': './src/components/basic-line-chart',
       'basic-table-chart': './src/components/basic-table-chart',
       'basic-count-chart': './src/components/basic-count-chart',
+      'basic-listing-chart': './src/components/basic-listing-chart',
     },
     mode: isProd ? 'production' : 'development',
     output: outputConfig(isProd),

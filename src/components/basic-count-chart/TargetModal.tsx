@@ -110,7 +110,7 @@ const TargetModal: React.FC<ConfigProps> = ({ addTarget, setAddTarget }) => {
                     setAddTarget({
                       ...addTarget,
                       value: val,
-                      group:[],
+                      // group:[],
                     })
                     setFieldValue('value', val);
                   }}
@@ -128,7 +128,7 @@ const TargetModal: React.FC<ConfigProps> = ({ addTarget, setAddTarget }) => {
                 onClick={() => {
                   setFieldValue('iql', '');
                   // setOption({ ...option, iql: '', selectors: {} });
-                  setAddTarget({ ...addTarget, iql: '', selectors: {}, group:[] })
+                  setAddTarget({ ...addTarget, iql: '', selectors: {} })
                 }}
               >
                 重置筛选

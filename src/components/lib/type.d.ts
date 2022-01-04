@@ -6,7 +6,7 @@ export type GroupValue = {
 
 export type OptionValue = {
   type: string;
-  group: GroupValue[];
+  group?: GroupValue[];
   value?: GroupValue[];
   cluster: GroupValue[];
   iql?: string;

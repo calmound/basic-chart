@@ -8,6 +8,11 @@ import { ViewProps } from '../lib/type';
 import classNames from 'classnames';
 import  './View.less';
 
+/**
+ * todo
+ * 查询接口重写
+ */
+
 const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace, setFetchError }) => {
   const id = random ? 'basic-line-chart_' + random : 'basic-line-chart';
   const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);

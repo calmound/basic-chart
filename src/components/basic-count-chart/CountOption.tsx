@@ -17,6 +17,7 @@ const { TextArea } = Input;
  * 配置项暂未开发
  */
 const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
+  console.log('%c [ option ]-20', 'font-size:13px; background:pink; color:#bf2c9f;', option)
   const { textAreaValue: _textAreaValue, target: _target, unitName: _unitName, unit: _unit } = option
   const [textAreaValue, setTextAreaValue] = useState(_textAreaValue ? _textAreaValue : '');
   const [isAddIndex, setAddIndex] = useState(false);
