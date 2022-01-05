@@ -4,17 +4,26 @@ export type GroupValue = {
   name?: string;
 };
 
+export type TargetValue = {
+  id?: string;
+  iql?: IQL;
+  selectors?: Selectors;
+  targetName?: string;
+  value?: GroupValue[];
+};
+
 export type OptionValue = {
-  type: string;
+  type?: string;
   group?: GroupValue[];
   value?: GroupValue[];
-  cluster: GroupValue[];
+  cluster?: GroupValue[];
   iql?: string;
   w?: number;
-  textAreaValue?: string;
-  target?: any;
+  formula?: string;
+  target?: TargetValue[];
   unitName?: string;
   unit?: string;
+  precision?: number;
 };
 
 export type ConfigProps = {
@@ -27,7 +36,7 @@ export type ConfigProps = {
 };
 
 export type OptionProps = {
-  option: any;
+  option: OptionValue;
 };
 
 export type ViewProps = {

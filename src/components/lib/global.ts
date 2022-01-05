@@ -75,3 +75,11 @@ export const INIT_OPTION = {
   iql: '',
   selectors:{},
 };
+
+export const COUNT_OPTION = {
+  formula: '', 
+  target: [], 
+  unitName: '', 
+  unit: '', 
+  precision: 2,
+}

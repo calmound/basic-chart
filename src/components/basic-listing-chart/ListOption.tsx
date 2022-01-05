@@ -8,9 +8,10 @@ import { BASIC_LISTING_CHART } from 'proxima-sdk/lib/Global';
 
 import { FilterQuery } from 'proxima-sdk/components/Components/Chart'
 import { ColumnsSettings } from 'proxima-sdk/components/Components/Common';
-import {  useTableColumns } from 'proxima-sdk/components/Components/Views';
+import { useTableColumns } from 'proxima-sdk/components/Components/Views';
 
 import { ConfigProps, GroupValue } from '../lib/type';
+import cx from './ListOption.less';
 
 /**
  * todo
@@ -23,7 +24,7 @@ import { ConfigProps, GroupValue } from '../lib/type';
 const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => {
 	const { type, group, value, cluster, iql } = option;
 	//全局不需要workspace
-	const { selectedColumns, columns, setColumns } = useTableColumns('default', workspace ? workspace: null);
+	const { selectedColumns, columns, setColumns } = useTableColumns('default', workspace ? workspace : null);
 
 	const [dataNumber, setDataNumber] = useState(10);
 	const ref = useRef(null);
@@ -41,19 +42,19 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 	}
 
 	const handleColumnChange = useCallback(
-    columns => {
-      const columnKeys = columns.filter(c => !c.isHidden).map(c => c.key);
-      setColumns(columnKeys);
-    },
-    [setColumns],
-  );
+		columns => {
+			const columnKeys = columns.filter(c => !c.isHidden).map(c => c.key);
+			setColumns(columnKeys);
+		},
+		[setColumns],
+	);
 
 	return (
 		<div>
 			<Formik innerRef={ref} initialValues={initialValues} onSubmit={() => { }}>
 				{({ setFieldValue }) => (
 					<>
-						<div className={'form-main-title'}>
+						<div className={('form-main-title')}>
 							<strong className={'info-title'}>图表信息</strong>
 							<span
 								className={'option-reset'}
@@ -87,7 +88,7 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 						<FormField name="ColumnsList">
 							{({ }) => (
 								<>
-									<div className={'form-columns-title'}>
+									<div className={cx('form-columns-title')}>
 										<ColumnsSettings
 											titleText='显示列'
 											customColumns={columns}
@@ -106,7 +107,7 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 								className={'option-reset'}
 								onClick={() => {
 									//   setFieldValue('iql', '');
-									  setOption({ ...option, iql: '', selectors: {} });
+									setOption({ ...option, iql: '', selectors: {} });
 								}}
 							>
 								重置筛选
