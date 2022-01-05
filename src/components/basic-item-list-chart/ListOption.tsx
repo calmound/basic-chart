@@ -25,7 +25,6 @@ import cx from './ListOption.less';
 
 const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => {
 	const { type, cluster, iql, dataNumber: _dataNumber } = option;
-	console.log('%c [ option ]-28', 'font-size:13px; background:pink; color:#bf2c9f;', option)
 	//全局不需要workspace
 	const { customFields, selectedColumns, columns, setColumns } = useTableColumns('default', workspace ? workspace : null);
 

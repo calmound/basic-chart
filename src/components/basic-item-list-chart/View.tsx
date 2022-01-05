@@ -19,7 +19,6 @@ import { ViewProps } from '../lib/type';
 import { useIQLSearch } from 'proxima-sdk/components/lib/useParseQuery'
 
 const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionToken, isListView, workspace, setFetchError }) {
-  console.log('%c [ option ]-10', 'font-size:13px; background:pink; color:#bf2c9f;', option)
   const id = random ? 'basic-item-list-chart_' + random : 'basic-item-list-chart';
   // const { selectedColumns } = option;
   const selectedColumns = [
