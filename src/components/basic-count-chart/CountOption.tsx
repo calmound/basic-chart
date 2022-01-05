@@ -40,7 +40,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
   const handleChange = useCallback(
     e => {
       setFormula(e.target?.value);
-      setOption({ ...option, formula: e.target?.value })
+      // setOption({ ...option, formula: e.target?.value })
     },
     [option],
   );
@@ -49,17 +49,16 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
      * 单位左右，默认点击确定时生效
      */
     setUnit(e.target.value)
-    setOption({...option, unit:e.target.value})
+    // setOption({...option, unit:e.target.value})
   };
   const handleSave = useCallback(() => {
     setOption({ ...option, target, unitName, unit, formula, precision })
   }, [target, unitName, unit, formula, precision, option])
 
-  const handleOnChange = useCallback((value) => {
+  const handleOnChange = (value) => {
     setPrecision(value);
-    setOption({ ...option, precision: value })
-  }, [option]
-  )
+    // setOption({ ...option, precision: value })
+  }
   const handleOkProps = () => {
     setAddIndex(false);
     let isIndex = false;
@@ -144,7 +143,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
                     <strong className={cx('info-title')}>单位</strong>
                   </div> */}
                   <div className={cx('form-set-unit')}>
-                    <Input {...field} onChange={e => { setUnitName(e.target?.value); setOption({ ...option, unitName: e.target?.value }) }} value={unitName} />
+                    <Input {...field} onChange={e => setUnitName(e.target?.value)} value={unitName} />
                     <Radio.Group onChange={handleUniteChange}>
                       <Radio.Button value="left">左</Radio.Button>
                       <Radio.Button value="right">右</Radio.Button>
