@@ -47,13 +47,13 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 	// 	setOption(...option, dataNumber)
 	// }, [dataNumber])
 
-	useEffect(()=>{
-		setOption({...option, selectedColumns, dataNumber})
+	useEffect(() => {
+		setOption({ ...option, selectedColumns, dataNumber })
 	}, [selectedColumns, dataNumber])
 
-	useEffect(()=>{
+	useEffect(() => {
 		setDataNumber(_dataNumber ? _dataNumber : 10)
-	},[ option?.dataNumber ])
+	}, [option?.dataNumber])
 
 	const handleColumnChange = useCallback(
 		columns => {
@@ -73,8 +73,8 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 							<span
 								className={'option-reset'}
 								onClick={() => {
-									  setOption({ ...option, ...ITEM_LIST_OPTION });
-										setFieldValue('DataNumber',10)
+									setOption({ ...option, ...ITEM_LIST_OPTION });
+									setFieldValue('DataNumber', 10)
 								}}
 							>
 								重置图表

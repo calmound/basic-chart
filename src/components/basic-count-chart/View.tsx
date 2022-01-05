@@ -28,7 +28,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
     {!data ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> 
     : 
     <div id={id} className={classNames(isListView ? 'basic-chart-count-list' : 'basic-chart-count-detail')} >
-      <span className={classNames('view-filter-data')}><span>{data?.chartData}</span><span style={{ float: option?.unit }}>{option?.unitName}</span></span>
+      <span className={classNames('view-filter-data')}><span>34.0</span><span style={{ float: option?.unit }}>{option?.unitName}</span></span>
     </div>}
     
   </>
