@@ -75,3 +75,16 @@ export const INIT_OPTION = {
   iql: '',
   selectors:{},
 };
+
+export const COUNT_OPTION = {
+  formula: '', 
+  target: [], 
+  unitName: '', 
+  unit: '', 
+  precision: 2,
+}
+
+export const ITEM_LIST_OPTION = {
+  dataNumber: 10,
+  iql: '',
+}

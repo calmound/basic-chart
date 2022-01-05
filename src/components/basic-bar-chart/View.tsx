@@ -12,7 +12,6 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
   useEffect(() => {
     if(setFetchError){
       setFetchError(fetchError);
-      console.log('%c [ fetchError ]-15', 'font-size:13px; background:pink; color:#bf2c9f;', fetchError)
     }
   }, [fetchError, setFetchError])
   const echartData = useMemo(() => {
