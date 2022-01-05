@@ -32,9 +32,10 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
 
   const initialValues = {
     type: BASIC_COUNT_CHART,
-    target: [],
-    formula: [],
-    precision: '',
+    formula: _formula ? _formula : '',
+    precision: _precision ? _precision : '',
+    unit: _unit ? _unit : '',
+    unitName: _unitName ? _unitName : '',
   };
 
   const handleChange = useCallback(
@@ -57,6 +58,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
 
   const handleOnChange = (value) => {
     setPrecision(value);
+    setFieldValue('precision', value)
     // setOption({ ...option, precision: value })
   }
   const handleOkProps = () => {
@@ -82,7 +84,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
                 <div>
                   {/* <div className={cx('form-main-title')}>
                     <strong className={cx('info-title')}>指标</strong> */}
-                    {/* <span
+                  {/* <span
                 className={'option-reset'}
                 onClick={() => {
                   setOption({ ...option, ...INIT_OPTION });
@@ -115,7 +117,10 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
                   {/* <div className={cx('form-main-title')}>
                     <strong className={cx('info-title')}>展示结果</strong>
                   </div> */}
-                  <TextArea {...field} key="formula" value={formula} placeholder="使用【】引用指标，支持进行简单的四则运算(英文半角符号)，例如：【新增需求】+【新增缺陷】" onChange={handleChange} className={cx('form-text-area')} />
+                  <TextArea {...field} key="formula" value={formula} placeholder="使用【】引用指标，支持进行简单的四则运算(英文半角符号)，例如：【新增需求】+【新增缺陷】" onChange={(e)=>{
+                    setFormula(e.target?.value);
+                    setFieldValue('formula', e.target?.value)
+                  }} className={cx('form-text-area')} />
                 </div>
               )}
             </FormField>
@@ -130,7 +135,10 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
                     min={0}
                     placeholder='请输入保留位数'
                     value={precision}
-                    onChange={handleOnChange}
+                    onChange={(value) => {
+                      setPrecision(value);
+                      setFieldValue('precision', value)
+                    }}
                     style={{ width: '100%', margin: '10px 0' }}
                   />
                 </div>
@@ -143,8 +151,13 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
                     <strong className={cx('info-title')}>单位</strong>
                   </div> */}
                   <div className={cx('form-set-unit')}>
-                    <Input {...field} onChange={e => setUnitName(e.target?.value)} value={unitName} />
-                    <Radio.Group onChange={handleUniteChange}>
+                    <Input {...field} onChange={e => {
+                      setUnitName(e.target?.value); setFieldValue('unitName', e.target?.value)
+                    }} value={unitName} />
+                    <Radio.Group onChange={()=>{
+                      setUnit(e.target.value)
+                      setFieldValue('unit', e.target?.value)
+                    }}>
                       <Radio.Button value="left">左</Radio.Button>
                       <Radio.Button value="right">右</Radio.Button>
                     </Radio.Group>
