@@ -27,6 +27,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
   const [unitName, setUnitName] = useState(_unitName ? _unitName : '');
   const [unit, setUnit] = useState(_unit ? _unit : '');
   const [precision, setPrecision] = useState(_precision ? _precision : '');
+
   const ref = useRef(null);
 
   const initialValues = {
@@ -39,24 +40,26 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
   const handleChange = useCallback(
     e => {
       setFormula(e.target?.value);
+      setOption({ ...option, formula: e.target?.value })
     },
-    [],
+    [option],
   );
   const handleUniteChange = e => {
     /**
      * 单位左右，默认点击确定时生效
      */
     setUnit(e.target.value)
-    // setOption({...option, unit:e.target.value})
+    setOption({...option, unit:e.target.value})
   };
   const handleSave = useCallback(() => {
     setOption({ ...option, target, unitName, unit, formula, precision })
   }, [target, unitName, unit, formula, precision, option])
 
-  const handleOnChange = (value) => {
+  const handleOnChange = useCallback((value) => {
     setPrecision(value);
-  }
-
+    setOption({ ...option, precision: value })
+  }, [option]
+  )
   const handleOkProps = () => {
     setAddIndex(false);
     let isIndex = false;
@@ -75,11 +78,11 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
       <Formik innerRef={ref} initialValues={initialValues} onSubmit={() => { }}>
         {({ setFieldValue }) => (
           <>
-            <FormField name="target">
+            <FormField name="target" label="指标">
               {({ field }) => (
                 <div>
-                  <div className={cx('form-main-title')}>
-                    <strong className={cx('info-title')}>指标</strong>
+                  {/* <div className={cx('form-main-title')}>
+                    <strong className={cx('info-title')}>指标</strong> */}
                     {/* <span
                 className={'option-reset'}
                 onClick={() => {
@@ -90,7 +93,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
               >
                 重置图表
               </span> */}
-                  </div>
+                  {/* </div> */}
                   <div {...field}>
                     {target.map(item =>
                       <div className={cx('form-main-target')}>
@@ -107,20 +110,20 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
                 </div>
               )}
             </FormField>
-            <FormField name="formula">
+            <FormField name="formula" label="展示结果">
               {({ field }) => (
                 <div className={cx('text-area-div')}>
-                  <div className={cx('form-main-title')}>
+                  {/* <div className={cx('form-main-title')}>
                     <strong className={cx('info-title')}>展示结果</strong>
-                  </div>
+                  </div> */}
                   <TextArea {...field} key="formula" value={formula} placeholder="使用【】引用指标，支持进行简单的四则运算(英文半角符号)，例如：【新增需求】+【新增缺陷】" onChange={handleChange} className={cx('form-text-area')} />
                 </div>
               )}
             </FormField>
-            <FormField name="precision">
+            <FormField name="precision" label="保留小数位数">
               {({ field }) => (
                 <div>
-                  <div className={cx('form-main-title')}><strong className={cx('info-title')}>保留小数位数</strong></div>
+                  {/* <div className={cx('form-main-title')}><strong className={cx('info-title')}>保留小数位数</strong></div> */}
                   <InputNumber
                     {...field}
                     parser={value => `$ ${value}`.replace(/[^\d]/g, '')}
@@ -134,14 +137,14 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
                 </div>
               )}
             </FormField>
-            <FormField name="unit">
+            <FormField name="unit" label="单位">
               {({ field }) => (
                 <div>
-                  <div className={cx('form-main-title')}>
+                  {/* <div className={cx('form-main-title')}>
                     <strong className={cx('info-title')}>单位</strong>
-                  </div>
+                  </div> */}
                   <div className={cx('form-set-unit')}>
-                    <Input {...field} onChange={e => setUnitName(e.target?.value)} value={unitName} />
+                    <Input {...field} onChange={e => { setUnitName(e.target?.value); setOption({ ...option, unitName: e.target?.value }) }} value={unitName} />
                     <Radio.Group onChange={handleUniteChange}>
                       <Radio.Button value="left">左</Radio.Button>
                       <Radio.Button value="right">右</Radio.Button>
