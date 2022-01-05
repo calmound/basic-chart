@@ -13,8 +13,7 @@ modules:
         h: 4
         minW: 4
         maxW: 12
-        minH: 2
-        maxH: Infinity
+        minH: 3
       icon: data:image/png;base64,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
     - key: basic-bar-chart
       resource: basic-bar-chart
@@ -26,8 +25,7 @@ modules:
         h: 4
         minW: 4
         maxW: 12
-        minH: 2
-        maxH: Infinity
+        minH: 3
       icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIBAMAAACnw650AAAAIVBMVEU2s36R0beZ2L2a2b7IylvMzl7Nzl/t7vH+/v7/xAD///8wIcIxAAAAAWJLR0QKaND0VgAAAKZJREFUSMflkbENwjAUBa9LRMUIjMAIjMAIrEBl0VI5PSC9mgqmpEBI3/K3kiLCJrzydJK/dTwnjGVId1g1IEW7M/QxH8HuCF3I1+TvfGkLNaQ3mFHy223AgEK7NRjw7cMd9m+Sk6rQLk1VaDf34dKtqvQBTUomlXSFPsZB2ifAtpMu0IVwknYJ8J57SIfRm35Fylh1yUnltctSee3a+92ypYntxvcCPnblOUiWlYcAAAAASUVORK5CYII=
     - key: basic-line-chart
       resource: basic-line-chart
@@ -39,8 +37,7 @@ modules:
         h: 4
         minW: 4
         maxW: 12
-        minH: 2
-        maxH: Infinity
+        minH: 3
       icon: data:image/png;base64,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
     - key: basic-table-chart
       resource: basic-table-chart
@@ -48,12 +45,11 @@ modules:
       description: 事项类型状态分布
       loadType: RemoteJs
       grid: 
-        w: 1
-        h: 1
-        minW: 1
+        w: 6
+        h: 4
+        minW: 4
         maxW: 12
-        minH: 1
-        maxH: Infinity
+        minH: 3
       icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFKSURBVHic7dshbgJBGEDhf5s1CHAUTYJG9wSEpOi63gCB6C1AILgBDl3VE6DRBFEHshfYCkQVvGYzLJPwPrWInZ28zEDY7BZVVVWhi57uPYHcGQgYCJSTxb2nkDdXEDAQMBAwEDAQMBAwEDAQMBAwEDAQMBAwECh2395RvKbwlut1bjFQHk71Tuy2I9qttJPJUfE6r7fFpqOI8fDv8+or1ZTy4hYDBgIGAgYCBgIGAgYCBgIGAgYCBgJlqoGmo1Qj5cUVBAwEDAQMBJJ9STfxKN/yPWLQOx/vjxGz9e2v6QoCBgIGAgYCBgIGAgYCBgIGAgYCBgLJ/ot9fqQa6X8GvWau6QoCBgIGAgYCBgLJfsWaeATv7SXiuXM+Pv1EbLa3v6YrCBgIGAgYCBgIGAgYCBgIGAgYCJT9br0TOw/wKlSEbxwitxgwEPgFQsgmEpUhNsYAAAAASUVORK5CYII=
     - key: basic-count-chart
       resource: basic-count-chart
