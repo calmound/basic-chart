@@ -31,9 +31,9 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
 
   const initialValues = {
     type: BASIC_COUNT_CHART,
-    target:[],
-    formula:[],
-    precision:'',
+    target: [],
+    formula: [],
+    precision: '',
   };
 
   const handleChange = useCallback(
@@ -76,7 +76,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
         {({ setFieldValue }) => (
           <>
             <FormField name="target">
-              {({ }) => (
+              {({ field }) => (
                 <div>
                   <div className={cx('form-main-title')}>
                     <strong className={cx('info-title')}>指标</strong>
@@ -91,36 +91,38 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
                 重置图表
               </span> */}
                   </div>
-
-                  {target.map(item =>
-                    <div className={cx('form-main-target')}>
-                      <OverflowTooltip maxline={1} title={item.targetName} >{item.targetName}</OverflowTooltip>
-                      <div className={cx('form-main-edit')}>
-                        <span onClick={() => { setAddTarget(item); setAddIndex(true) }}>编辑</span>
-                        <span onClick={() => setAddTarget(remove(target, function (itemDel) { return isEqual(itemDel, item) }))}>删除</span>
+                  <div {...field}>
+                    {target.map(item =>
+                      <div className={cx('form-main-target')}>
+                        <OverflowTooltip maxline={1} title={item.targetName} >{item.targetName}</OverflowTooltip>
+                        <div className={cx('form-main-edit')}>
+                          <span onClick={() => { setAddTarget(item); setAddIndex(true) }}>编辑</span>
+                          <span onClick={() => setAddTarget(remove(target, function (itemDel) { return isEqual(itemDel, item) }))}>删除</span>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
                   <Button className={cx('form-add-target')} onClick={() => { setAddIndex(true) }}>+添加指标</Button>
                 </div>
               )}
             </FormField>
             <FormField name="formula">
-              {({ }) => (
+              {({ field }) => (
                 <div className={cx('text-area-div')}>
                   <div className={cx('form-main-title')}>
                     <strong className={cx('info-title')}>展示结果</strong>
                   </div>
-                  <TextArea key="formula" value={formula} placeholder="使用【】引用指标，支持进行简单的四则运算(英文半角符号)，例如：【新增需求】+【新增缺陷】" onChange={handleChange} className={cx('form-text-area')} />
+                  <TextArea {...field} key="formula" value={formula} placeholder="使用【】引用指标，支持进行简单的四则运算(英文半角符号)，例如：【新增需求】+【新增缺陷】" onChange={handleChange} className={cx('form-text-area')} />
                 </div>
               )}
             </FormField>
             <FormField name="precision">
-              {({ }) => (
+              {({ field }) => (
                 <div>
                   <div className={cx('form-main-title')}><strong className={cx('info-title')}>保留小数位数</strong></div>
                   <InputNumber
+                    {...field}
                     parser={value => `$ ${value}`.replace(/[^\d]/g, '')}
                     formatter={value => value.replace(/[^\d]/g, '')}
                     min={0}
@@ -133,13 +135,13 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
               )}
             </FormField>
             <FormField name="unit">
-              {({ }) => (
+              {({ field }) => (
                 <div>
                   <div className={cx('form-main-title')}>
                     <strong className={cx('info-title')}>单位</strong>
                   </div>
                   <div className={cx('form-set-unit')}>
-                    <Input onChange={e => setUnitName(e.target?.value)} value={unitName} />
+                    <Input {...field} onChange={e => setUnitName(e.target?.value)} value={unitName} />
                     <Radio.Group onChange={handleUniteChange}>
                       <Radio.Button value="left">左</Radio.Button>
                       <Radio.Button value="right">右</Radio.Button>

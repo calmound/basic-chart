@@ -25,13 +25,13 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
 
   return (
     <>
-    {!data ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> 
-    : 
-    <div id={id} className={cx(isListView ? 'basic-chart-count-list' : 'basic-chart-count-detail')} >
-      <span className={cx('view-filter-data')}><span>34.0</span><span style={{ float: option?.unit }}>{option?.unitName}</span></span>
-    </div>}
-    
-  </>
+      {!data ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} />
+        :
+        <div id={id} className={cx(isListView ? 'basic-chart-count-list' : 'basic-chart-count-detail')} >
+          <span className={cx('view-filter-data')}><span>34.0</span><span style={{ float: option?.unit }}>{option?.unitName}</span></span>
+        </div>}
+
+    </>
   )
 };
 

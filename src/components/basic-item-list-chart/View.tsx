@@ -72,7 +72,7 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
       objectId: 'lA8PQbbJie',
     },
   ];
-  
+
   const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
 
   // useEffect(() => {
@@ -99,8 +99,8 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
               loading={rowData._skeleton}
               itemId={rowData.objectId}
               cellData={cellData}
-              // onClick={handleActionClick}
-              // tableActions={renderTableAction({ itemId: rowData.objectId, rowData })}
+            // onClick={handleActionClick}
+            // tableActions={renderTableAction({ itemId: rowData.objectId, rowData })}
             />
           );
         },
@@ -142,10 +142,10 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
             rowKey="objectId"
             // data={dataSource}
             footerHeight={48}
-            // footerRenderer={p}
-            // ref={baseTableRef}
-            // disabled={loading}
-            // overlayRenderer={LoadingLayer}
+          // footerRenderer={p}
+          // ref={baseTableRef}
+          // disabled={loading}
+          // overlayRenderer={LoadingLayer}
           >
             {columns.map(column => (
               <Column key={column.key} resizable {...column} />
