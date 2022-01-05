@@ -83,3 +83,8 @@ export const COUNT_OPTION = {
   unit: '', 
   precision: 2,
 }
+
+export const ITEM_LIST_OPTION = {
+  dataNumber: 10,
+  iql: '',
+}

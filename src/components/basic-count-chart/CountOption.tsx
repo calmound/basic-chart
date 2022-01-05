@@ -12,9 +12,7 @@ const { TextArea } = Input;
 /**
  * todo 
  * View样式待调整，detail部分样式调整
- * 展示结果逻辑可能待修改
- * 查询接口可能会更改
- * 未对接口
+ * 展示结果过滤，只保留四则运算部分，正则
  * 配置项暂未开发
  */
 const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
@@ -42,7 +40,7 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
   };
   const handleSave = useCallback(() => {
     setOption({ ...option, target, unitName, unit, formula, precision })
-  }, [target, unitName, unit, formula])
+  }, [target, unitName, unit, formula, precision, option])
 
   const handleOnChange = (value) => {
     setPrecision(value);
@@ -101,9 +99,8 @@ const CountOption: React.FC<ConfigProps> = ({ option, setOption }) => {
         <InputNumber
           parser={value => `$ ${value}`.replace(/[^\d]/g, '')}
           formatter={value => value.replace(/[^\d]/g, '')}
-          min={10}
-          defaultValue={10}
-          placeholder='请输入结果数'
+          min={0}
+          placeholder='请输入保留位数'
           value={precision}
           onChange={handleOnChange}
           style={{ width: '100%', margin: '10px 0' }}

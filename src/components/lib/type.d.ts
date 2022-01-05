@@ -12,6 +12,17 @@ export type TargetValue = {
   value?: GroupValue[];
 };
 
+export type ColumnsValue = {
+  cellType?: string;
+  data?: any;
+  dataIndex?: string;
+  key?: string;
+  objectId?: string
+  property: any;
+  title: string;
+  validation: any;
+}
+
 export type OptionValue = {
   type?: string;
   group?: GroupValue[];
@@ -19,11 +30,15 @@ export type OptionValue = {
   cluster?: GroupValue[];
   iql?: string;
   w?: number;
+  // count图表所用
   formula?: string;
   target?: TargetValue[];
   unitName?: string;
   unit?: string;
   precision?: number;
+  // item-list使用
+  dataNumber?: number;
+  selectedColumns?: ColumnsValue[];
 };
 
 export type ConfigProps = {

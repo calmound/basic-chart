@@ -7,7 +7,7 @@ import { OptionProps } from '../lib/type';
 
 import ListOption from './ListOption';
 
-const Option: React.FC<OptionProps> = ({ option = INIT_OPTION, ...defaultProps }) => {
+const Option: React.FC<OptionProps> = ({ option, ...defaultProps }) => {
   return <ListOption {...defaultProps} option={option} />
 };
 

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useMemo, useRef, useState, useCallback } from 'react';
+import React, { useMemo, useRef, useState, useCallback, useEffect } from 'react';
 import { InputNumber } from '@osui/ui';
 import { Formik } from 'formik';
 import { FormField } from 'proxima-sdk/components/Components/Common';
@@ -11,6 +11,7 @@ import { ColumnsSettings } from 'proxima-sdk/components/Components/Common';
 import { useTableColumns } from 'proxima-sdk/components/Components/Views';
 
 import { ConfigProps, GroupValue } from '../lib/type';
+import { ITEM_LIST_OPTION } from '../lib/global'
 import cx from './ListOption.less';
 
 /**
@@ -19,20 +20,22 @@ import cx from './ListOption.less';
  * 样式微调
  * 接口是否修改
  * view样式还未修改
+ * 如何保存selectedColumns
  */
 
 const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => {
-	const { type, group, value, cluster, iql } = option;
+	const { type, cluster, iql, dataNumber: _dataNumber } = option;
+	console.log('%c [ option ]-28', 'font-size:13px; background:pink; color:#bf2c9f;', option)
 	//全局不需要workspace
-	const { selectedColumns, columns, setColumns } = useTableColumns('default', workspace ? workspace : null);
+	const { customFields, selectedColumns, columns, setColumns } = useTableColumns('default', workspace ? workspace : null);
 
-	const [dataNumber, setDataNumber] = useState(10);
+	const [dataNumber, setDataNumber] = useState(_dataNumber ? _dataNumber : 10);
 	const ref = useRef(null);
 
 	const initialValues = {
 		type: BASIC_LISTING_CHART,
-		group: group?.length ? (group[0] as GroupValue)?.key : undefined,
-		value: value,
+		// group: group?.length ? (group[0] as GroupValue)?.key : undefined,
+		// value: value,
 		cluster: cluster?.length ? (cluster[0] as GroupValue)?.key : undefined,
 		iql: iql,
 	};
@@ -40,6 +43,18 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 	const handleOnChange = (value) => {
 		setDataNumber(value)
 	}
+
+	// useEffect(()=>{
+	// 	setOption(...option, dataNumber)
+	// }, [dataNumber])
+
+	useEffect(()=>{
+		setOption({...option, selectedColumns, dataNumber})
+	}, [selectedColumns, dataNumber])
+
+	useEffect(()=>{
+		setDataNumber(_dataNumber ? _dataNumber : 10)
+	},[ option?.dataNumber ])
 
 	const handleColumnChange = useCallback(
 		columns => {
@@ -59,22 +74,23 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 							<span
 								className={'option-reset'}
 								onClick={() => {
-									//   setOption({ ...option, ...INIT_OPTION });
+									  setOption({ ...option, ...ITEM_LIST_OPTION });
+										setFieldValue('DataNumber',10)
 								}}
 							>
 								重置图表
 							</span>
 						</div>
 						<FormField name="DataNumber">
-							{({ }) => (
+							{({ field }) => (
 								<>
 									<div>
 										<div>每页结果数(最多50条)</div>
 										<InputNumber
+											{...field}
 											parser={value => `$ ${value}`.replace(/[^\d]/g, '')}
 											formatter={value => value.replace(/[^\d]/g, '')}
 											min={10}
-											defaultValue={10}
 											placeholder='请输入结果数'
 											value={dataNumber}
 											onChange={handleOnChange}
@@ -107,7 +123,7 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 								className={'option-reset'}
 								onClick={() => {
 									//   setFieldValue('iql', '');
-									setOption({ ...option, iql: '', selectors: {} });
+									setOption({ ...option, iql: '', selectors: {}, selectedColumns });
 								}}
 							>
 								重置筛选
