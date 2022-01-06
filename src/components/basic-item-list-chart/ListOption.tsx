@@ -103,7 +103,7 @@ const ListOption: React.FC<ConfigProps> = ({ option, setOption, workspace }) => 
 						<FormField name="ColumnsList">
 							{({ field }) => (
 								<>
-									<div className={cx('form-columns-title')}>
+									<div className={cx('columns')}>
 										<ColumnsSettings
 											{...field}
 											titleText='显示列'
