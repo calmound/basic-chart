@@ -7,12 +7,11 @@ import CommonView from '../common/CommonView';
 import { ViewProps } from '../lib/type';
 
 const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace, setFetchError}) => {
-  const id = random ? 'basic-bar-chart_' + random : 'basic-bar-chart';
+  const id = random ? random : 'basic-bar-chart';
   const { chartData, isNoData = true, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
   useEffect(() => {
     if(setFetchError){
       setFetchError(fetchError);
-      console.log('%c [ fetchError ]-15', 'font-size:13px; background:pink; color:#bf2c9f;', fetchError)
     }
   }, [fetchError, setFetchError])
   const echartData = useMemo(() => {

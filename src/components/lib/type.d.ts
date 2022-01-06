@@ -4,13 +4,41 @@ export type GroupValue = {
   name?: string;
 };
 
-export type OptionValue = {
-  type: string;
-  group: GroupValue[];
+export type TargetValue = {
+  id?: string;
+  iql?: IQL;
+  selectors?: Selectors;
+  targetName?: string;
   value?: GroupValue[];
-  cluster: GroupValue[];
+};
+
+export type ColumnsValue = {
+  cellType?: string;
+  data?: any;
+  dataIndex?: string;
+  key?: string;
+  objectId?: string
+  property: any;
+  title: string;
+  validation: any;
+}
+
+export type OptionValue = {
+  type?: string;
+  group?: GroupValue[];
+  value?: GroupValue[];
+  cluster?: GroupValue[];
   iql?: string;
   w?: number;
+  // count图表所用
+  formula?: string;
+  target?: TargetValue[];
+  unitName?: string;
+  unit?: string;
+  precision?: number;
+  // item-list使用
+  dataNumber?: number;
+  selectedColumns?: ColumnsValue[];
 };
 
 export type ConfigProps = {
@@ -18,10 +46,12 @@ export type ConfigProps = {
   view?: string;
   option: OptionValue;
   handleChageType?: (type: string) => void;
+  setAddTarget?: React.Dispatch<any>;
+  addTarget?: any;
 };
 
 export type OptionProps = {
-  option: any;
+  option: OptionValue;
 };
 
 export type ViewProps = {

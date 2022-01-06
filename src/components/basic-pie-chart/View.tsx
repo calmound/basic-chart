@@ -7,7 +7,7 @@ import CommonView from '../common/CommonView';
 import { ViewProps } from '../lib/type';
 
 const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionToken, isListView, workspace, setFetchError }) {
-  const id = random ? 'basic-pie-chart_' + random : 'basic-pie-chart';
+  const id = random ?  random : 'basic-pie-chart';
 
   const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
 
