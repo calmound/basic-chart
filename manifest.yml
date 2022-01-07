@@ -75,6 +75,30 @@ modules:
         maxW: 12
         minH: 1
       icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAWlBMVEU2s35Li/9Lu4xMu4xNvI1el/9fmP/E6dnF6drG6tvK3f/L3v/M3v/Y2Nja2trc3Nzg4ODm5ubu7u709PT6+vr7+/v/xAD/yhv/yhz/yx3/7rT/7rb/7rf///+ia1ZMAAAAAWJLR0Qd6wNxkQAAAKZJREFUWMPt10sOgzAMBNDwC7QQUqClUOD+12RjeZVCsLKIxMzeT7JkjWS1BYoCBCg6aLDGN3agwWeRUHTNkL9jjCVIJxwdHpKsVrOkG9wRIEAx9dHr7Rz8fUfKtHjWSOeEppEzh4ckqy0szSvuCBCgCPqo7Y8Hy1RRsuqkRj6HUKY4eXhIslrFUv7AHQECFOe/xg/NxT76/2Jd7CMBJFkNfQToHtAOc0MYqBKXBXEAAAAASUVORK5CYII=
+    - key: basic-item-statistics-chart
+      resource: basic-item-statistics-chart
+      name: 事项统计
+      description: 事项统计
+      loadType: RemoteJs
+      grid: 
+        w: 1
+        h: 1
+        minW: 1
+        maxW: 12
+        minH: 1
+      icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAmVBMVEU2s35At4VBt4VCt4ZDuIdEuIdFuYhLi/9Ukf9Vkf9Wkv9Xk/9Yk/9YlP91y6Z3zKh5zKl6zaqDr/+Gsf+Hsv+Isv/Y2Nja2trc3Nze3t7g8+vh4eHj7f/o6Ojo9vDp9/Hr8v/09PT19fX39/f/xAD/xw3/xw7/xw//yBH/yBL/yBP/11D/11P/2FX/2Fb/9tj/+OL/+eP////N4OT7AAAAAWJLR0QyQNJMyAAAAQZJREFUWMPt1tkOgjAQBVDABRAVFVTcoC4gigv4/x8nZUwkscbY6YMxc58aUk7SNNNc7aYoGkEEMc+yRks8xLpmGYehIc+s4vP1Opg8Eqxhy/OLOLCvgiyAbL6u/RUA9MF57KtDHTQ0AmiMPtrS4U6PKbh+37bHjEaEoB+B8lMcZ1c8lB92ZdIcDZ12Vc5fDO10JYJigJKvnpHNe2iPhjKALuijXVPuHAsF139OkktBI0LQj0Chq+v9OR4KW1qZZoiGXK3KQKZEzLY1SAfIkKo1i1eogYb6AA3RR5s3udOOFFz/wDCGEY0IQdSPlPUj8dBK9SPRMyLVj0SQRD8SH436EUF/B90BMhuUftBnmG4AAAAASUVORK5CYII=
+    - key: hs-heap-chart
+      resource: hs-heap-chart
+      name: 堆积柱状图
+      description: 堆积柱状图
+      loadType: RemoteJs
+      grid: 
+        w: 1
+        h: 1
+        minW: 1
+        maxW: 12
+        minH: 1
+      icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIBAMAAACnw650AAAAD1BMVEU2s37t7vH+/v7/xAD///+RCZ0mAAAAAWJLR0QEj2jZUQAAAKBJREFUSMftkeEJgCAQRi0aoGiBqAnKBghq/5nyDOXCSy0MS/z+XHy98uSxzSMsQwGh3iOs8cjjnRYmUmXoPkSo6gAqHe5qgApwBrlwp4+TkGundyHVJQRhRRDsThXYnVJldRfpdisXmc+Q8WEsCCYPCxGqBng3iQcJHe60KtmJ2cIcUYGPU3+37vQ3yOiiQ4Qqyp2hinL3vdulDXm6c2cHJx719nRfcYEAAAAASUVORK5CYII=
 
 resources:
   - key: basic-pie-chart
@@ -89,3 +113,7 @@ resources:
     path: ./dist/basic-count-chart
   - key: basic-item-list-chart
     path: ./dist/basic-item-list-chart
+  - key: basic-item-statistics-chart
+    path: ./dist/basic-item-statistics-chart
+  - key: hs-heap-chart
+    path: ./dist/hs-heap-chart

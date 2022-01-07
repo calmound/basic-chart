@@ -19,6 +19,7 @@ export const BASIC_PIE_CHART = 'basic-pie-chart';
 export const BASIC_LINE_CHART = 'basic-line-chart';
 export const BASIC_BAR_CHART = 'basic-bar-chart';
 export const BASIC_TABLE_CHART = 'basic-table-chart';
+export const HS_HEAP_CHART = 'hs-heap-chart';
 
 export const CHART_TYPE_INFO = {
   [BASIC_PIE_CHART]: {
@@ -46,6 +47,12 @@ export const CHART_TYPE_INFO = {
     valueLabel: '值',
     valueGroupLabel: '列纬度',
     type: 'table',
+  },
+  [HS_HEAP_CHART]: {
+    name: '柱状图',
+    groupLabel: 'X轴',
+    valueLabel: 'Y轴',
+    type: 'bar',
   },
 };
 

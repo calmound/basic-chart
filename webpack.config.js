@@ -122,6 +122,8 @@ module.exports = (cliEnv = {}, argv) => {
       'basic-table-chart': './src/components/basic-table-chart',
       'basic-count-chart': './src/components/basic-count-chart',
       'basic-item-list-chart': './src/components/basic-item-list-chart',
+      'basic-item-statistics-chart': './src/components/basic-item-statistics-chart',
+      'hs-heap-chart': './src/components/hs-heap-chart',
     },
     mode: isProd ? 'production' : 'development',
     output: outputConfig(isProd),

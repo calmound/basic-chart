@@ -104,9 +104,9 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
 
   return (
     <div style={{ height: '100%' }}>
-      {dataSource !== undefined && columns !== undefined ?
-        // <AutoResizer>
-        //   {({  }) => (
+      {/* {dataSource !== undefined && columns !== undefined ?
+        <AutoResizer>
+          {({  }) => (
             <BaseTable
               fixed
               width={140}
@@ -124,11 +124,11 @@ const View: React.FC<ViewProps> = function ({ random, option, tenant, sessionTok
                 <Column key={column.key} resizable {...column} />
               )) : null}
             </BaseTable>
-      //     )}
-      //  </AutoResizer>
+          )}
+       </AutoResizer>
         :
         null
-      }
+      } */}
 
     </div>
   )
