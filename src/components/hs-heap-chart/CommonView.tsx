@@ -14,36 +14,36 @@ const CommonView: React.FC<CommonViewProp> = props => {
   const { echartData, id, option, isListView, isNoData, name, Xdata, series } = props;
   const [echart, setEChart] = useState(null);
   // x轴名称，对应弹窗title
-  const [echartParams,setEchartParams] = useState(null);
-  const [visible,setVisible] = useState(false);
+  const [echartParams, setEchartParams] = useState(null);
+  const [visible, setVisible] = useState(false);
   // 点击柱状图数据总和
-  const [dataTotal,setDataTotal] = useState(0);
+  const [dataTotal, setDataTotal] = useState(0);
   // 点击时对应的x轴的信息
-  const [xData,setXData] = useState(null);
+  const [xData, setXData] = useState(null);
   // 点击时此柱状图的数据与名称
-  const [listData,setListData] = useState([]);
+  const [listData, setListData] = useState([]);
 
   useEffect(() => {
     const echart = echarts.init(document.getElementById(id));
     setEChart(echart);
     // 每小段柱子都有点击事件
-    echart.on('click',function(params){
+    echart.on('click', function (params) {
       let xIndex = params?.dataIndex;
       let total = 0;
-        const listData = [];
-        series.forEach(item=>{
-          const data = {};
-          total += item.data[xIndex];
-          data.name = item.name;
-          data.value = item.data[xIndex];
-          listData.push(data);
-        })
-        setListData(listData);
-        setDataTotal(total);
-        setXData(Xdata[xIndex]);
-        setEchartParams(Xdata[xIndex]?.value);
-        setVisible(true);
+      const listData = [];
+      series.forEach(item => {
+        const data = {};
+        total += item.data[xIndex];
+        data.name = item.name;
+        data.value = item.data[xIndex];
+        listData.push(data);
       })
+      setListData(listData);
+      setDataTotal(total);
+      setXData(Xdata[xIndex]);
+      setEchartParams(Xdata[xIndex]?.value);
+      setVisible(true);
+    })
 
     // 整条柱状区域点击事件；
     // echart.getZr().on('click', params => {
@@ -71,7 +71,7 @@ const CommonView: React.FC<CommonViewProp> = props => {
     return () => {
       document.getElementById(id)?.remove();
     };
-    
+
     // 只有一次渲染触发
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -88,13 +88,19 @@ const CommonView: React.FC<CommonViewProp> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [echart, option?.w]);
 
- 
+
 
   return (
     <>
       {/* {isNoData ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> : null} */}
       <div id={id} className={'view echarts-view'} />
-      <Modal visible={visible} onOk={()=>setVisible(false)} onCancel={ ()=>setVisible(false) } className={cx('modal')} title={echartParams}>
+      <Modal
+        visible={visible}
+        onOk={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+        className={cx('modal')}
+        title={echartParams}
+      >
         <HeapModal echartParams={echartParams} isListView={isListView} name={name} dataTotal={dataTotal} xData={xData} listData={listData} />
       </Modal>
     </>

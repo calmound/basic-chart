@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React, { useMemo, useRef } from 'react';
-import { Input, Select } from '@osui/ui';
+import React, { useMemo, useRef, useState, useCallback } from 'react';
+import { Input, Modal, Select } from '@osui/ui';
 import { Formik } from 'formik';
 
 import { DropdownInput } from 'proxima-sdk/components/Components/Chart';
@@ -27,9 +27,11 @@ import { CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
 
 import { ConfigProps, GroupValue } from '../lib/type';
 import { debounce } from 'lodash';
+import cx from './Config.less';
+import ScreenModal from './ScreenModal';
 const { TextArea } = Input;
 
-const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } = FIELD_TYPE_KEY_MAPPINGS;
+const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt, Radio, Checkbox, Tree, Workspace } = FIELD_TYPE_KEY_MAPPINGS;
 
 /**
  * todo.....
@@ -39,12 +41,16 @@ const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } =
  * table 等待新后端结构，然后适配
  */
 const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
-  const { type, group, value, cluster, iql } = option;
+  const { type, group, value, cluster, iql, screen } = option;
+  const [visible, setVisible] = useState(false);
+  const [screenData, setScreenData] = useState(screen ? screen : {});
+  const [oldGroup, setOldGroup] = useState({});
+
   // 获取数据源类型的自定义字段
   let selectQuery = new Parse.Query(CustomField).include('fieldType');
   selectQuery = selectQuery.matchesQuery(
     'fieldType',
-    new Parse.Query(FieldType).containedIn('key', [Dropdown, User, ItemType, Status]),
+    new Parse.Query(FieldType).containedIn('key', [Radio, Checkbox, Dropdown, Tree, Workspace]),
   );
   const { data: _xData } = useParseQuery(selectQuery, FetchMethod.All);
 
@@ -80,42 +86,24 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
     ].concat(_numberFields || []) as CustomFieldProps[];
   }, [_numberFields]);
 
-  const dateFields = useMemo(() => {
-    return _dateFields || [];
-  }, [_dateFields]);
 
   // 下拉类型的字段
   const groupOptions = useMemo(() => {
     return _xData?.length
       ? _xData.map(c => (
-        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+        <Select.Option
+          value={c.key}
+          key={c.key}
+          component={c.fieldType.component}
+          fieldType={c.fieldType?.objectId}
+          name={c.name}
+          fieldId={c.objectId}
+        >
           {c.name}
         </Select.Option>
       ))
       : [];
   }, [_xData]);
-
-  // 列纬度的字段
-  const clusterOptions = useMemo(() => {
-    return _clusterData?.length
-      ? _clusterData.map(c => (
-        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
-          {c.name}
-        </Select.Option>
-      ))
-      : [];
-  }, [_clusterData]);
-
-  // 日期类型的字段
-  const dateOptions = useMemo(() => {
-    return dateFields?.length
-      ? dateFields.map(c => (
-        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
-          {c.name}
-        </Select.Option>
-      ))
-      : [];
-  }, [dateFields]);
 
   const { groupLabel, valueLabel, valueGroupLabel } = CHART_TYPE_INFO[type];
   const ref = useRef(null);
@@ -138,22 +126,18 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
 
   const groupValue = useMemo(() => {
     if (group?.length) {
-      return group[0].name;
+      group.forEach(item => {
+        return item.name;
+      });
     }
     return undefined;
   }, [group]);
 
-  const setIqlValue = debounce(e => {
-    setOption({
-      ...option,
-      iql: e.target.value,
-    });
-  }, 500);
 
 
   return (
     <div>
-      <Formik innerRef={ref} initialValues={initialValues} onSubmit={() => {}}>
+      <Formik innerRef={ref} initialValues={initialValues} onSubmit={() => { }}>
         {({ setFieldValue }) => (
           <>
             <div className={'form-main-title'}>
@@ -185,7 +169,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                             ? INIT_CHART_GROUP_VALUE
                             : group;
                       handleChageType(val);
-                      setOption({ ...option, type: val, group: _group , cluster: []});
+                      setOption({ ...option, type: val, group: _group, cluster: [] });
                       setFieldValue('type', val);
                     }}
                   >
@@ -194,35 +178,42 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                 </>
               )}
             </FormField>
-            <FormField label={groupLabel} name="group">
-              {({ field }) => (
-                <>
-                  <Select
-                    {...field}
-                    value={groupValue}
-                    showSearch={true}
-                    placeholder="请选择"
-                    onChange={(val, opt) => {
-                      const { key, name, fieldType } = opt as unknown as CustomFieldProps;
-                      setOption({
-                        ...option,
-                        group: [
-                          {
-                            key: key,
-                            name: name,
-                            fieldType: fieldType,
-                          },
-                        ],
-                      });
-                      setFieldValue('group', val);
-                    }}
-                    optionFilterProp="children"
-                  >
-                    {type === BASIC_LINE_CHART ? dateOptions : groupOptions}
-                  </Select>
-                </>
-              )}
-            </FormField>
+            <div className={cx('group')}>
+              <span
+                className={cx('screen')}
+                onClick={() => {
+                  setVisible(true);
+                }}
+              >
+                筛选
+              </span>
+              <FormField label={groupLabel} name="group">
+                {({ field }) => (
+                  <>
+                    <Select
+                      {...field}
+                      mode="multiple"
+                      value={groupValue}
+                      showSearch={true}
+                      placeholder="请选择"
+                      onChange={(val, opt) => {
+                        console.log('%c [ opt ]-200', 'font-size:13px; background:pink; color:#bf2c9f;', opt)
+                        setOption({
+                          ...option,
+                          group: opt,
+                        });
+                        setFieldValue('group', val);
+                        setOldGroup(opt);
+                      }}
+                      optionFilterProp="children"
+
+                    >
+                      {groupOptions}
+                    </Select>
+                  </>
+                )}
+              </FormField>
+            </div>
             <FormField label={valueLabel} name="value">
               {({ field }) => (
                 <DropdownInput
@@ -240,40 +231,8 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                 />
               )}
             </FormField>
-            {type === BASIC_TABLE_CHART ? (
-              <FormField label={valueGroupLabel} name="cluster">
-                {({ field }) => (
-                  <Select
-                    {...field}
-                    showSearch
-                    // allowClear
-                    placeholder="请选择"
-                    onChange={(val, opt) => {
-                      /**
-                       * todo 支持清除功能不生效，原因val，opt undefined，上面select同样的问题
-                       */
-                      const { key, name, fieldType } = opt as unknown as CustomFieldProps;
-                      setOption({
-                        ...option,
-                        cluster: [
-                          {
-                            key: key,
-                            name: name,
-                            fieldType: fieldType,
-                          },
-                        ],
-                      });
-                      setFieldValue('cluster', val);
-                    }}
-                    optionFilterProp="children"
-                  >
-                    {clusterOptions}
-                  </Select>
-                )}
-              </FormField>
-            ) : null}
 
-            <div style={{height:'16px'}}></div>
+            <div style={{ height: '16px' }}></div>
 
             <div className={'form-main-title'}>
               <strong className={'info-title'}>数据筛选</strong>
@@ -303,6 +262,19 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
               setOption={setOption}
               option={option}
             />
+            {
+              visible ?
+                <Modal
+                  visible={visible}
+                  onOk={() => setVisible(false)}
+                  onCancel={() => { setVisible(false); setOption({ ...option, group: oldGroup }) }}
+                  title="筛选"
+                >
+                  <ScreenModal group={group} option={option} setOption={setOption} />
+                </Modal>
+                : null
+            }
+
           </>
         )}
       </Formik>
