@@ -41,13 +41,13 @@ export type OptionValue = {
   selectedColumns?: ColumnsValue[];
 };
 
-export type ConfigProps = {
-  setOption?: React.Dispatch<any>;
+export type CommonOptionProps = {
   view?: string;
   option: OptionValue;
+  setOption?: React.Dispatch<any>;
+  setSearchOption?: React.Dispatch<any>;
   handleChageType?: (type: string) => void;
   setAddTarget?: React.Dispatch<any>;
-  addTarget?: any;
 };
 
 export type OptionProps = {
@@ -73,3 +73,13 @@ export type CommonViewProp = {
   isListView?: boolean;
   isNoData?: boolean;
 };
+
+export type TargetModalProps = {
+  target: {
+    id: string;
+    iql: string;
+    targetName: string;
+    selector: any;
+  };
+  setTarget: React.Dispatch<React.SetStateAction<{}>>
+}

@@ -1,3 +1,6 @@
+// @ts-nocheck
+import { SYSTEM_FIELD } from 'proxima-sdk/lib/Global';
+
 export const LABEL_TYPE = [
   {
     type: 'pie',
@@ -73,18 +76,24 @@ export const INIT_OPTION = {
   group: [],
   cluster: [],
   iql: '',
-  selectors:{},
+  selectors: {},
 };
 
 export const COUNT_OPTION = {
-  formula: '', 
-  target: [], 
-  unitName: '', 
-  unit: '', 
+  formula: '',
+  target: [],
+  unitName: '',
+  unit: '',
   precision: 2,
 }
 
-export const ITEM_LIST_OPTION = {
-  dataNumber: 10,
-  iql: '',
+export const INIT_ITEM_LIST_OPTION = {
+  pageSize: 10,
+  columnKeys: [
+    SYSTEM_FIELD.Key,
+    SYSTEM_FIELD.Status,
+    SYSTEM_FIELD.ItemType,
+    SYSTEM_FIELD.Workspace,
+    SYSTEM_FIELD.ItemGroup,
+  ]
 }
