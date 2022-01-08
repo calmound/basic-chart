@@ -11,19 +11,31 @@ import { NoData } from 'proxima-sdk/components/Components/Chart';
 
 import { ViewProps } from '../lib/type';
 
-import  './View.less';
+import cx from './View.less';
 
-const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, workspace, setFetchError }) => {
+const View: React.FC<ViewProps> = ({
+  option,
+  tenant,
+  sessionToken,
+  isListView,
+  workspace,
+  setFetchError,
+}) => {
   const { group = [], value = [], cluster = [] } = option;
   const [resData, setResData] = useState([]);
   const [groupHeader, setGroupHeader] = useState([]);
-  const { chartData, isNoData, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
+  const { chartData, isNoData, fetchError } = useChartQuery(
+    tenant,
+    workspace,
+    sessionToken,
+    option,
+  );
 
   useEffect(() => {
-    if(setFetchError){
+    if (setFetchError) {
       setFetchError(fetchError);
     }
-  }, [fetchError, setFetchError])
+  }, [fetchError, setFetchError]);
 
   const columns = useMemo(() => {
     const firstColumns = [
@@ -75,13 +87,9 @@ const View: React.FC<ViewProps> = ({ option, tenant, sessionToken, isListView, w
   return (
     <>
       {isNoData ? <NoData title="暂无数据，请修改图表数据配置" isListView={isListView} /> : null}
-      <div
-        className={classNames(
-          isListView ? 'basic-chart-table-list-wrap' : 'basic-chart-table-wrap',
-        )}
-      >
+      <div className={isListView ? cx('view') : cx('detail-view')}>
         <Table
-          className={'baisc-table'}
+          className={cx('table')}
           columns={columns}
           dataSource={resData}
           bordered

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useMemo, useRef } from 'react';
-import { Input, Select } from '@osui/ui';
+import { Input, Select, Button } from '@osui/ui';
 import { Formik } from 'formik';
 
 import { DropdownInput } from 'proxima-sdk/components/Components/Chart';
@@ -21,24 +21,17 @@ import { CustomField, FieldType } from 'proxima-sdk/schema/models';
 import Parse from 'proxima-sdk/lib/Parse';
 import { CustomField as CustomFieldProps } from 'proxima-sdk/schema/types/models';
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
-import { FilterQuery } from 'proxima-sdk/components/Components/Chart'
+import { FilterQuery } from 'proxima-sdk/components/Components/Chart';
 
 import { CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
 
-import { ConfigProps, GroupValue } from '../lib/type';
+import { CommonOptionProps, GroupValue } from '../lib/type';
 import { debounce } from 'lodash';
-const { TextArea } = Input;
 
-const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } = FIELD_TYPE_KEY_MAPPINGS;
+const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt } =
+  FIELD_TYPE_KEY_MAPPINGS;
 
-/**
- * todo.....
- * option 回显后续在验证
- * value 搜索有问题
- * 下拉value是数组，所以需要使用Dropdown
- * table 等待新后端结构，然后适配
- */
-const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
+const CommonOption: React.FC<CommonOptionProps> = ({ option, setOption, setSearchOption, handleChageType }) => {
   const { type, group, value, cluster, iql } = option;
   // 获取数据源类型的自定义字段
   let selectQuery = new Parse.Query(CustomField).include('fieldType');
@@ -88,10 +81,10 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   const groupOptions = useMemo(() => {
     return _xData?.length
       ? _xData.map(c => (
-        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
-          {c.name}
-        </Select.Option>
-      ))
+          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+            {c.name}
+          </Select.Option>
+        ))
       : [];
   }, [_xData]);
 
@@ -99,10 +92,10 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   const clusterOptions = useMemo(() => {
     return _clusterData?.length
       ? _clusterData.map(c => (
-        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
-          {c.name}
-        </Select.Option>
-      ))
+          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+            {c.name}
+          </Select.Option>
+        ))
       : [];
   }, [_clusterData]);
 
@@ -110,10 +103,10 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   const dateOptions = useMemo(() => {
     return dateFields?.length
       ? dateFields.map(c => (
-        <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
-          {c.name}
-        </Select.Option>
-      ))
+          <Select.Option value={c.key} key={c.key} fieldType={c.fieldType?.key} name={c.name}>
+            {c.name}
+          </Select.Option>
+        ))
       : [];
   }, [dateFields]);
 
@@ -150,11 +143,14 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
     });
   }, 500);
 
+  const handleSubmit = () => {
+    setSearchOption(option);
+  };
 
   return (
     <div>
-      <Formik innerRef={ref} initialValues={initialValues} onSubmit={() => {}}>
-        {({ setFieldValue }) => (
+      <Formik innerRef={ref} initialValues={initialValues} onSubmit={handleSubmit}>
+        {({ setFieldValue, handleSubmit }) => (
           <>
             <div className={'form-main-title'}>
               <strong className={'info-title'}>图表信息</strong>
@@ -182,10 +178,10 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                         val === BASIC_LINE_CHART
                           ? INIT_CHART_GROUP_LINE_VALUE
                           : type === BASIC_LINE_CHART
-                            ? INIT_CHART_GROUP_VALUE
-                            : group;
+                          ? INIT_CHART_GROUP_VALUE
+                          : group;
                       handleChageType(val);
-                      setOption({ ...option, type: val, group: _group , cluster: []});
+                      setOption({ ...option, type: val, group: _group, cluster: [] });
                       setFieldValue('type', val);
                     }}
                   >
@@ -273,7 +269,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
               </FormField>
             ) : null}
 
-            <div style={{height:'16px'}}></div>
+            <div style={{ height: '16px' }}></div>
 
             <div className={'form-main-title'}>
               <strong className={'info-title'}>数据筛选</strong>
@@ -287,22 +283,10 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
                 重置筛选
               </span>
             </div>
-            {/* <FormField label={'IQL查询'} name="iql">
-              {({ field }) => (
-                <TextArea
-                  {...field}
-                  placeholder="请输入"
-                  onChange={e => {
-                    setIqlValue(e);
-                    setFieldValue('iql', e.target.value)
-                  }}
-                />
-              )}
-            </FormField> */}
-            <FilterQuery
-              setOption={setOption}
-              option={option}
-            />
+            <FilterQuery setOption={setOption} option={option} />
+            <Button type="primary" className="chart-search" onClick={() => handleSubmit()}>
+              查询
+            </Button>
           </>
         )}
       </Formik>
@@ -310,4 +294,4 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   );
 };
 
-export default Config;
+export default CommonOption;
