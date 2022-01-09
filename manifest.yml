@@ -8,6 +8,7 @@ modules:
       name: 事项类型占比
       description: 事项类型占比
       loadType: RemoteJs
+      tabOrder: 1
       grid: 
         w: 6
         h: 4
@@ -20,6 +21,7 @@ modules:
       name: 事项状态分布
       description: 事项状态分布
       loadType: RemoteJs
+      tabOrder: 1
       grid: 
         w: 6
         h: 4
@@ -32,6 +34,7 @@ modules:
       name: 存量事项趋势
       description: 存量事项趋势
       loadType: RemoteJs
+      tabOrder: 1
       grid: 
         w: 6
         h: 4
@@ -44,6 +47,7 @@ modules:
       name: 事项类型状态分布
       description: 事项类型状态分布
       loadType: RemoteJs
+      tabOrder: 1
       grid: 
         w: 6
         h: 4
@@ -56,6 +60,7 @@ modules:
       name: 计算
       description: 计算
       loadType: RemoteJs
+      tabOrder: 1
       grid: 
         w: 4
         h: 4
@@ -68,6 +73,7 @@ modules:
       name: 事项列表
       description: 事项列表
       loadType: RemoteJs
+      tabOrder: 1
       grid: 
         w: 1
         h: 1
