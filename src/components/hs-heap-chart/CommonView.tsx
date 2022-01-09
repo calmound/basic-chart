@@ -61,7 +61,7 @@ const CommonView: React.FC<CommonViewProps> = props => {
   useEffect(() => {
     const echart = echarts.init(document.getElementById(id));
     setEChart(echart);
-    // 每小段柱子都有点击事件
+    // 每小段柱子都有点击事件，此方法对应每个小柱子都可点击，柱子以外的白色不能点击，空白柱子(总数)此处未验证
     echart.on('click', function (params) {
       let xIndex = params?.dataIndex;
       let total = 0;
@@ -73,14 +73,18 @@ const CommonView: React.FC<CommonViewProps> = props => {
         data.value = item.data[xIndex];
         listData.push(data);
       })
+      // 点击的柱子的数据，名称等
       setListData(listData);
+      // 当前柱子值的总和
       setDataTotal(total);
+      // 点击的x轴数据
       setXData(Xdata[xIndex]);
+      // x轴文字，可以直接从XData获取，此处可删掉
       setEchartParams(Xdata[xIndex]?.value);
       setVisible(true);
     })
 
-    // 整条柱状区域点击事件；
+    // 整条柱状区域点击事件；即柱子向上的空白区域也可点击显示弹窗，空白柱子(总数)此处未验证，此方法防止数据为空时点击弹不出弹窗，不确定是否使用
     // echart.getZr().on('click', params => {
     //   let pointInPixel = [params.offsetX, params.offsetY]
     //   if (echart.containPixel('grid', pointInPixel)) {

@@ -32,11 +32,12 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
       type: 'bar',
     }
   ]
+  // 总数，显示总数时实际是显示一个透明的柱子
   const totalData = {
     data: data[0].data,
     type: data[0].type,
     // stack: 'x',
-    barGap: '-100%',
+    barGap: '-100%', //偏移，不在同一柱子上叠加
     itemStyle: {
       normal: {
         color: 'rgba(128, 128, 128, 0)',
@@ -49,10 +50,11 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
     },
   }
   const _series = [];
-  const [legend, setLegend] = useState([]);
+  // const [legend, setLegend] = useState([]);
   
   const [series, setSeries] = useState(_series)
   useEffect(()=>{
+    // 在data中插入itemStyle显示具体数量
     data.map((item,index) => {
       if (index > 0) {
         item['stack'] = 'x';
@@ -72,6 +74,7 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
   }, [data])
 
   useEffect(() => {
+    // 通过判断checked，决定是否展示总数
     if (option.checked) {
       _series.unshift(totalData);
       setSeries(_series);
@@ -85,13 +88,13 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
     }
   }, [option]);
 
-  useEffect(()=>{
-    const _legend = [];
-    series.forEach(item => {
-      _legend.push(item.name);
-    });
-    setLegend(_legend);
-  },[series])
+  // useEffect(()=>{
+  //   const _legend = [];
+  //   series.forEach(item => {
+  //     _legend.push(item.name);
+  //   });
+  //   setLegend(_legend);
+  // },[series])
 
   // echarts点击时间获取不到自定义的x轴id，
   const Xdata = [
@@ -105,6 +108,11 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
   const echartData = useMemo(() => {
     const xAxisData = chartData?.payload?.xAxis || [];
     const seriesValue = chartData?.payload?.value || [];
+
+    const legend = [];
+    series.forEach(item => {
+      legend.push(item.name);
+    });
     const xyData = {
       // xAxis: {
       //   data: xAxisData,
@@ -149,9 +157,12 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
         }
       },
     };
-  }, [chartData, Xdata, legend, series]);
+  }, [chartData, Xdata, series]);
 
-  // name:报表名称，Xdata：x轴的数据，series：堆积柱状图数据
+  /**
+   * name:报表名称，Xdata：x轴的数据，series：堆积柱状图数据
+   * 将x轴数据传递，以便确定堆积柱状图点击的是哪个x轴，方便拿到x轴对应的标识符去请求数据
+   */
   return <CommonView echartData={echartData} id={id} option={option} isListView={isListView} isNoData={false} name={name} Xdata={Xdata} series={series} />;
 };
 

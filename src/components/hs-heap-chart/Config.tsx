@@ -204,7 +204,7 @@ const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageTyp
                   <>
                     <Select
                       {...field}
-                      mode="multiple"
+                      // mode="multiple"
                       value={groupValue}
                       showSearch={true}
                       placeholder="请选择"
@@ -309,18 +309,6 @@ const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageTyp
                 重置筛选
               </span>
             </div>
-            {/* <FormField label={'IQL查询'} name="iql">
-              {({ field }) => (
-                <TextArea
-                  {...field}
-                  placeholder="请输入"
-                  onChange={e => {
-                    setIqlValue(e);
-                    setFieldValue('iql', e.target.value)
-                  }}
-                />
-              )}
-            </FormField> */}
             <FilterQuery
               setOption={setOption}
               option={option}
