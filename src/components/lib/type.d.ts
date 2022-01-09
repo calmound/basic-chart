@@ -42,6 +42,9 @@ export type OptionValue = {
   selectedColumns?: ColumnsValue[];
   // 堆积柱状图使用
   screen?: Selectors;
+  checked?: boolean
+  num?: number;
+  sort?: string,
 };
 
 export type CommonOptionProps = {
@@ -85,19 +88,4 @@ export type TargetModalProps = {
     selector: any;
   };
   setTarget: React.Dispatch<React.SetStateAction<{}>>
-}
-export type ScreenModalProps = {
-  option?: OptionValue;
-  setOption?: React.Dispatch<any>;
-}
-
-export type CommonViewProps = {
-  echartData:any;
-  id:number;
-  option:OptionValue;
-  isListView:boolean;
-  isNoData:boolean;
-  name:string;
-  Xdata:any;
-  series:any;
 }

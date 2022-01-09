@@ -1,6 +1,5 @@
 // @ts-nocheck
 import React from 'react';
-import { ScreenModalProps } from '../lib/type';
 import { Select } from '@osui/ui';
 import { FILTER_EXPRESSIONS } from 'proxima-sdk/lib/Global';
 import { cloneDeep } from 'lodash';
@@ -9,6 +8,11 @@ import { CustomField, Workspace } from 'proxima-sdk/schema/models';
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
 import cx from './Config.less';
 const { Option } = Select;
+// type暂时写这，等迁移之后移出
+type ScreenModalProps = {
+  option?: OptionValue;
+  setOption?: React.Dispatch<any>;
+}
 
 const ScreenModal: React.FC<ScreenModalProps> = ({ option, setOption }) => {
   const { group } = option;
@@ -44,9 +48,8 @@ const ScreenModal: React.FC<ScreenModalProps> = ({ option, setOption }) => {
                 handleChange(val, index, 'expression');
               }}
             >
-              {component &&
-                FILTER_EXPRESSIONS[component] &&
-                FILTER_EXPRESSIONS[component].map(expr => {
+              {
+                FILTER_EXPRESSIONS["Dropdown"].map(expr => {
                   return (
                     <Option key={expr.value} value={expr.value} expression={expr.value}>
                       {expr.label}

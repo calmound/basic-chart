@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useMemo, useRef, useState, useCallback } from 'react';
-import { Input, Modal, Select } from '@osui/ui';
+import { Input, Modal, Select, Switch, InputNumber } from '@osui/ui';
 import { Formik } from 'formik';
 
 import { DropdownInput } from 'proxima-sdk/components/Components/Chart';
@@ -28,7 +28,8 @@ import { CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
 import { CommonOptionProps, GroupValue } from '../lib/type';
 import cx from './Config.less';
 import ScreenModal from './ScreenModal';
-const { TextArea } = Input;
+import { isNil } from 'lodash';
+const { Option } = Select;
 
 const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt, Radio, Checkbox, Tree, Workspace } = FIELD_TYPE_KEY_MAPPINGS;
 
@@ -40,7 +41,7 @@ const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt, Ra
  * table 等待新后端结构，然后适配
  */
 const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageType }) => {
-  const { type, group, value, cluster, iql, screen } = option;
+  const { type, group, value, cluster, iql, checked, num, sort } = option;
   const [visible, setVisible] = useState(false);
   const [oldGroup, setOldGroup] = useState({});
 
@@ -60,19 +61,28 @@ const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageTyp
   );
   const { data: _clusterData } = useParseQuery(clusterQuery, FetchMethod.All);
 
-  // 获取数值类型的自定义字段
-  let numQuery = new Parse.Query(CustomField).include('fieldType');
-  numQuery = numQuery.matchesQuery('fieldType', new Parse.Query(FieldType).equalTo('key', Number));
-  const { data: _numberFields } = useParseQuery(numQuery, FetchMethod.All);
+  // // 获取数值类型的自定义字段
+  // let numQuery = new Parse.Query(CustomField).include('fieldType');
+  // numQuery = numQuery.matchesQuery('fieldType', new Parse.Query(FieldType).equalTo('key', Number));
+  // const { data: _numberFields } = useParseQuery(numQuery, FetchMethod.All);
 
-  let dateQuery = new Parse.Query(CustomField).include('fieldType');
-  dateQuery = dateQuery.matchesQuery(
-    'fieldType',
-    new Parse.Query(FieldType).containedIn('key', [Date, CreatedAt, UpdatedAt]),
-  );
-  const { data: _dateFields } = useParseQuery(dateQuery, FetchMethod.All);
+  // let dateQuery = new Parse.Query(CustomField).include('fieldType');
+  // dateQuery = dateQuery.matchesQuery(
+  //   'fieldType',
+  //   new Parse.Query(FieldType).containedIn('key', [Date, CreatedAt, UpdatedAt]),
+  // );
+  // const { data: _dateFields } = useParseQuery(dateQuery, FetchMethod.All);
 
   const numberFields = useMemo(() => {
+    // return [
+    //   {
+    //     key: 'count',
+    //     fieldType: {
+    //       key: 'count',
+    //     },
+    //     name: '事项数',
+    //   },
+    // ].concat(_numberFields || []) as CustomFieldProps[];
     return [
       {
         key: 'count',
@@ -81,8 +91,8 @@ const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageTyp
         },
         name: '事项数',
       },
-    ].concat(_numberFields || []) as CustomFieldProps[];
-  }, [_numberFields]);
+    ]
+  }, []);
 
 
   // 下拉类型的字段
@@ -108,10 +118,14 @@ const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageTyp
 
   const initialValues = {
     type: HS_HEAP_CHART,
-    group: group?.length ? (group[0] as GroupValue)?.key : undefined,
+    // 此处给默认值上不去
+    group: group?.length ? (group[0] as GroupValue)?.value : undefined,
     value: value,
     cluster: cluster?.length ? (cluster[0] as GroupValue)?.key : undefined,
     iql: iql,
+    checked: checked === undefined ? false : checked,
+    num: num === undefined ? null : num,
+    sort: sort === undefined ? null : sort,
   };
 
   const typeOptions = useMemo(() => {
@@ -195,7 +209,6 @@ const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageTyp
                       showSearch={true}
                       placeholder="请选择"
                       onChange={(val, opt) => {
-                        console.log('%c [ opt ]-200', 'font-size:13px; background:pink; color:#bf2c9f;', opt)
                         setOption({
                           ...option,
                           group: opt,
@@ -212,23 +225,75 @@ const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageTyp
                 )}
               </FormField>
             </div>
-            <FormField label={valueLabel} name="value">
+            <FormField label={valueLabel} name="value" >
               {({ field }) => (
-                <DropdownInput
-                  {...field}
-                  customFields={numberFields}
-                  value={value}
-                  onChange={val => {
-                    setOption({
-                      ...option,
-                      value: val,
-                    });
-                    setFieldValue('value', val);
-                  }}
-                  mode={type === BASIC_PIE_CHART ? '' : 'multiple'}
+                // 此处使用select ts报异常
+                 <DropdownInput
+                {...field}
+                customFields={numberFields}
+                value={value}
+                onChange={val => {
+                  setOption({
+                    ...option,
+                    value: val,
+                  });
+                  setFieldValue('value', val);
+                }}
+                mode='multiple'
                 />
               )}
             </FormField>
+            <FormField name="checked">
+              {({ field }) => (
+                <div className={cx('displays')}>
+                  <span>显示数据标签</span>
+                  <Switch {...field} checked={checked} onChange={checked => {
+                    setOption({ ...option, checked });
+                    setFieldValue('checked', checked);
+                  }} />
+                </div>
+              )}
+            </FormField>
+            <FormField name="num">
+              {({ field }) => (
+                <div className={cx('displays')}>
+                  <span>显示数量</span>
+                  <InputNumber
+                    {...field}
+                    parser={value => `$ ${value}`.replace(/[^\d]/g, '')}
+                    formatter={value => value.replace(/[^\d]/g, '')}
+                    placeholder="请输入显示数量"
+                    value={num}
+                    className={cx('input')}
+                    onChange={value => {
+                      setFieldValue('num', value);
+                      setOption({ ...option, num: value });
+                    }}
+                  />
+                </div>
+              )}
+            </FormField>
+            <FormField name="sort">
+              {({ field }) => (
+                <div className={cx('displays')}>
+                  <span>显示排序</span>
+                  <Select
+                    {...field}
+                    allowClear
+                    placeholder="请选择排序方式"
+                    value={sort}
+                    className={cx('sort')}
+                    onChange={value => {
+                      setFieldValue('sort', value);
+                      setOption({ ...option, sort: value });
+                    }}>
+                    <Option key="desc" value="desc">降序</Option>
+                    <Option key="asc" value="asc">升序</Option>
+                  </Select>
+                </div>
+              )}
+            </FormField>
+
 
             <div style={{ height: '16px' }}></div>
 

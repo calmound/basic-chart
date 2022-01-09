@@ -1,14 +1,49 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
-
 import { NoData } from 'proxima-sdk/components/Components/Chart';
-
-
-import { CommonViewProps } from '../lib/type';
 import { Modal } from '@osui/ui';
 import HeapModal from './HeapModal';
 import cx from './CommonView.less';
+// type暂时写这，等迁移之后移出
+type XDataProps = {
+  key: number,
+  value: string,
+}
+
+type LabelProps = {
+  formatter: string;
+  position: string;
+  show: boolean | undefined;
+}
+
+type NormalProps = {
+  label: LabelProps;
+}
+
+type ItemStyleProps = {
+  normal: NormalProps;
+}
+
+type SeriesProps = {
+  data: Array<number>;
+  name: string;
+  stack: string;
+  type: string;
+  itemStyle: ItemStyleProps;
+}
+
+type CommonViewProps = {
+  echartData: any;
+  id: number;
+  option: OptionValue;
+  isListView: boolean;
+  isNoData: boolean;
+  name: string;
+  Xdata: XDataProps[];
+  series: SeriesProps[];
+}
+
 
 const CommonView: React.FC<CommonViewProps> = props => {
   const { echartData, id, option, isListView, isNoData, name, Xdata, series } = props;

@@ -1,21 +1,20 @@
 // @ts-nocheck
-import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { ConfigProps, GroupValue } from '../lib/type';
+import React, { useMemo, useState, useEffect } from 'react';
 import * as echarts from 'echarts';
 import cx from './HeapModal.less'
-import Title from 'antd/lib/skeleton/Title';
 
+// type暂时写这，等迁移之后移出
 type ListDataProps = {
-  value:number;
-  name:string;
+  value: number;
+  name: string;
 }
 
 type HeapModalProps = {
-  echartParams: any;
+  echartParams: string;
   isListView: boolean;
   name: string;
-  dataTotal: number; 
-  xData: any;
+  dataTotal: number;
+  xData: ListDataProps;
   listData: ListDataProps[];
 }
 
@@ -23,25 +22,8 @@ const HeapModal: React.FC<HeapModalProps> = ({ echartParams, isListView, name, d
   const id = 'hs-heap-model-chart';
   const [modalEchart, setModalEChart] = useState(null);
   // const [modelData,setModelData] = useState(null);
-  const xData = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-  const series = [
-    {
-      data: [10, 22, 28, 43, 49],
-      type: 'line',
-      stack: 'x',
-      name: '留存',
-    },
-    {
-      data: [5, 4, 3, 5, 10],
-      type: 'line',
-      stack: 'x',
-      name: '新增',
-    }
-  ];
-  const legend = [];
-  series.forEach(item => {
-    legend.push(item.name);
-  });
+  // 请求数据，待定
+  // const { chartData, isNoData = true, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
 
   useEffect(() => {
     const modalEchart = echarts.init(document.getElementById(id));
@@ -61,6 +43,25 @@ const HeapModal: React.FC<HeapModalProps> = ({ echartParams, isListView, name, d
   }, [modalEchart]);
 
   const echartData = useMemo(() => {
+    // const xAxisData = chartData?.payload?.xAxis || [];
+    // const seriesValue = chartData?.payload?.value || [];
+    const xData = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+    const series = [
+      {
+        data: [10, 22, 28, 43, 49],
+        type: 'line',
+        name: '留存',
+      },
+      {
+        data: [5, 4, 3, 5, 10],
+        type: 'line',
+        name: '新增',
+      }
+    ];
+    const legend = [];
+    series.forEach(item => {
+      legend.push(item.name);
+    });
     const xyData = {
       title: {
         text: name + '趋势',
@@ -68,7 +69,17 @@ const HeapModal: React.FC<HeapModalProps> = ({ echartParams, isListView, name, d
       xAxis: {
         data: xData,
       },
-      yAxis: {},
+      yAxis: {
+        type: 'value',
+        name: legend,
+        position: 'left',
+        axisLine: {
+          show: true,
+        },
+        axisLabel: {
+          formatter: '{value}'
+        }
+      },
       series: series,
       legend: {
         data: legend,
@@ -88,7 +99,10 @@ const HeapModal: React.FC<HeapModalProps> = ({ echartParams, isListView, name, d
     return {
       ...xyData,
       tooltip: {
-        formatter: '{b}: {c}',
+        // trigger: 'axis',
+        axisPointer: {
+          type: 'cross'
+        }
       },
     };
   }, [echartParams]);
@@ -111,12 +125,12 @@ const HeapModal: React.FC<HeapModalProps> = ({ echartParams, isListView, name, d
         </span>
         {
           listData.map(item => {
-            return(
+            return (
               <span className={cx('title')}>
-              <span>{item.value}</span>
-              <span>{item.name}</span>
-            </span>
-            ) 
+                <span>{item.value}</span>
+                <span>{item.name}</span>
+              </span>
+            )
           })
         }
       </div>

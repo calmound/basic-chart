@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useChartQuery } from 'proxima-sdk/components/Components/Chart';
 
@@ -9,51 +9,102 @@ import { ViewProps } from '../lib/type';
 const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isListView, workspace, setFetchError, name }) => {
   const id = random ? random : 'hs-heap-chart';
   const { chartData, isNoData = true, fetchError } = useChartQuery(tenant, workspace, sessionToken, option);
+  const color = ['#4B8BFF', '#36B37E', '#FFC400', '#2EC7C9', '#B6A2DE', '#5AB1EF', '#FFB980', '#D87A80',
+    '#8D98B3', '#E5CF0D', '#97B552', '#95706D', '#91B6F8', '#DC69AA', '#07A2A4', '#9A7FD1', '#588DD5', '#F5994E',
+    '#FF95AD', '#9096BB', '#D5B394'];
   useEffect(() => {
     if (setFetchError) {
       setFetchError(fetchError);
     }
   }, [fetchError, setFetchError])
-  const series = [
+  let totalData = {};
+
+  const data = [
+    { data: [130, 220, 165, 110, 90, 121, 143],type: 'bar', },
     {
       data: [120, 200, 150, 80, 70, 110, 130],
+      name: '分析中',
       type: 'bar',
-      stack: 'x',
-      backgroundStyle: {
-        color: 'rgba(180, 180, 180, 0.2)'
-      },
-      name: '分析中'
     },
     {
       data: [10, 20, 15, 30, 20, 11, 13],
-      type: 'bar',
-      stack: 'x',
-      backgroundStyle: {
-        color: 'red'
-      },
       name: '以上线',
+      type: 'bar',
     }
-  ];
+  ]
+  const totalData = {
+    data: data[0].data,
+    type: data[0].type,
+    // stack: 'x',
+    barGap: '-100%',
+    itemStyle: {
+      normal: {
+        color: 'rgba(128, 128, 128, 0)',
+        label: {
+          show: true,
+          position: 'top',
+          formatter: "{c}",
+        }
+      },
+    },
+  }
+  const _series = [];
+  const [legend, setLegend] = useState([]);
+  
+  const [series, setSeries] = useState(_series)
+  useEffect(()=>{
+    data.map((item,index) => {
+      if (index > 0) {
+        item['stack'] = 'x';
+        item['itemStyle'] = {
+          normal: {
+            label: {
+              show: option.checked,
+              position: 'inside',
+              formatter: "{c}",
+            }
+          },
+        }
+        _series.push(item);
+      }
+    });
+  
+  }, [data])
+
+  useEffect(() => {
+    if (option.checked) {
+      _series.unshift(totalData);
+      setSeries(_series);
+    } else {
+      _series.forEach((item, index) => {
+        if (item === totalData) {
+          _series.splice(index, 1)
+        }
+      })
+      setSeries(_series)
+    }
+  }, [option]);
+
+  useEffect(()=>{
+    const _legend = [];
+    series.forEach(item => {
+      _legend.push(item.name);
+    });
+    setLegend(_legend);
+  },[series])
+
   // echarts点击时间获取不到自定义的x轴id，
   const Xdata = [
     { value: '金融', key: 1 },
     { value: '银行', key: 2 },
     { value: '基金', key: 3 },
     { value: '金融同业', key: 4 },
-    { value: '资产管理', key: 5 }, 
+    { value: '资产管理', key: 5 },
     { value: '电子银行', key: 6 },
     { value: '等等', key: 7 }];
-
-  const legend = [];
-  series.forEach(item => {
-    legend.push(item.name);
-  });
-
-
   const echartData = useMemo(() => {
     const xAxisData = chartData?.payload?.xAxis || [];
     const seriesValue = chartData?.payload?.value || [];
-
     const xyData = {
       // xAxis: {
       //   data: xAxisData,
@@ -66,8 +117,17 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
         data: Xdata,
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        name: legend,
+        position: 'left',
+        axisLine: {
+          show: true,
+        },
+        axisLabel: {
+          formatter: '{value}'
+        }
       },
+      color: color,
       legend: {
         data: legend,
         show: !isListView,
@@ -77,20 +137,19 @@ const View: React.FC<ViewProps> = ({ random, option, tenant, sessionToken, isLis
           padding: [10, 0, 0, 0],
         },
         formatter: '{name}',
-        label: {
-          show: true,
-          formatter: '{b}: {d}%',
-        },
       },
       series: series,
     };
     return {
       ...xyData,
       tooltip: {
-        formatter: '{b}: {c}',
+        // trigger: 'axis',
+        axisPointer: {
+          type: 'cross'
+        }
       },
     };
-  }, [chartData]);
+  }, [chartData, Xdata, legend, series]);
 
   // name:报表名称，Xdata：x轴的数据，series：堆积柱状图数据
   return <CommonView echartData={echartData} id={id} option={option} isListView={isListView} isNoData={false} name={name} Xdata={Xdata} series={series} />;
