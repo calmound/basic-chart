@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Config } from '../common';
 import { INIT_OPTION } from '../lib/global';
 import { OptionProps } from '../lib/type';
 

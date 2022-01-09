@@ -5,12 +5,12 @@ import * as echarts from 'echarts';
 import { NoData } from 'proxima-sdk/components/Components/Chart';
 
 
-import { CommonViewProp } from '../lib/type';
+import { CommonViewProps } from '../lib/type';
 import { Modal } from '@osui/ui';
 import HeapModal from './HeapModal';
 import cx from './CommonView.less';
 
-const CommonView: React.FC<CommonViewProp> = props => {
+const CommonView: React.FC<CommonViewProps> = props => {
   const { echartData, id, option, isListView, isNoData, name, Xdata, series } = props;
   const [echart, setEChart] = useState(null);
   // x轴名称，对应弹窗title

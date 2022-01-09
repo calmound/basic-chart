@@ -1,17 +1,16 @@
 // @ts-nocheck
-import React, { useMemo, useRef, useState, useEffect, useCallback } from 'react';
-import { ConfigProps, GroupValue } from '../lib/type';
-import Title from 'antd/lib/skeleton/Title';
+import React from 'react';
+import { ScreenModalProps } from '../lib/type';
 import { Select } from '@osui/ui';
 import { FILTER_EXPRESSIONS } from 'proxima-sdk/lib/Global';
 import { cloneDeep } from 'lodash';
 import Parse from 'proxima-sdk/lib/Parse';
-import { CustomField, FieldType, Workspace } from 'proxima-sdk/schema/models';
+import { CustomField, Workspace } from 'proxima-sdk/schema/models';
 import useParseQuery, { FetchMethod } from 'proxima-sdk/hooks/useParseQuery';
 import cx from './Config.less';
+const { Option } = Select;
 
-
-const ScreenModal: React.FC<> = ({ option, setOption }) => {
+const ScreenModal: React.FC<ScreenModalProps> = ({ option, setOption }) => {
   const { group } = option;
   const getData = (component, fieldId) => {
     let selectQuery = component === "Workspace" ? new Parse.Query(Workspace) : new Parse.Query(CustomField).equalTo('objectId', fieldId);
@@ -31,7 +30,7 @@ const ScreenModal: React.FC<> = ({ option, setOption }) => {
   return (
     <div className={cx('screen')}>
       {group?.map((item, index) => {
-        const { expression, name, component, fieldId, fieldType, key, spaceVal } = item;
+        const { expression, name, component, fieldid:fieldId, fieldtype:fieldType, key, spaceVal } = item;
         const data = getData(component, fieldId);
         return (
           <div className={cx('select')}>
@@ -44,7 +43,6 @@ const ScreenModal: React.FC<> = ({ option, setOption }) => {
               onChange={val => {
                 handleChange(val, index, 'expression');
               }}
-              optionFilterProp="children"
             >
               {component &&
                 FILTER_EXPRESSIONS[component] &&
@@ -64,7 +62,6 @@ const ScreenModal: React.FC<> = ({ option, setOption }) => {
                 handleChange(opt?.id ? opt?.id : opt?.value , index, 'spaceVal');
               }}
               value={spaceVal}
-              optionFilterProp="children"
             >
               {
                 data ?

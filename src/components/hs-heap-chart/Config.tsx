@@ -10,10 +10,10 @@ import { FormField } from 'proxima-sdk/components/Components/Common';
 import {
   BASIC_LINE_CHART,
   BASIC_PIE_CHART,
-  BASIC_TABLE_CHART,
   FIELD_TYPE_KEY_MAPPINGS,
   INIT_CHART_GROUP_LINE_VALUE,
   INIT_CHART_GROUP_VALUE,
+  HS_HEAP_CHART
 } from 'proxima-sdk/lib/Global';
 
 import { CustomField, FieldType } from 'proxima-sdk/schema/models';
@@ -25,8 +25,7 @@ import { FilterQuery } from 'proxima-sdk/components/Components/Chart'
 
 import { CHART_TYPE_INFO, INIT_OPTION } from '../lib/global';
 
-import { ConfigProps, GroupValue } from '../lib/type';
-import { debounce } from 'lodash';
+import { CommonOptionProps, GroupValue } from '../lib/type';
 import cx from './Config.less';
 import ScreenModal from './ScreenModal';
 const { TextArea } = Input;
@@ -40,10 +39,9 @@ const { Number, User, Dropdown, ItemType, Status, Date, CreatedAt, UpdatedAt, Ra
  * 下拉value是数组，所以需要使用Dropdown
  * table 等待新后端结构，然后适配
  */
-const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) => {
+const Config: React.FC<CommonOptionProps> = ({ option, setOption, handleChageType }) => {
   const { type, group, value, cluster, iql, screen } = option;
   const [visible, setVisible] = useState(false);
-  const [screenData, setScreenData] = useState(screen ? screen : {});
   const [oldGroup, setOldGroup] = useState({});
 
   // 获取数据源类型的自定义字段
@@ -95,9 +93,9 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
           value={c.key}
           key={c.key}
           component={c.fieldType.component}
-          fieldType={c.fieldType?.objectId}
+          fieldtype={c.fieldType?.objectId}
           name={c.name}
-          fieldId={c.objectId}
+          fieldid={c.objectId}
         >
           {c.name}
         </Select.Option>
@@ -109,7 +107,7 @@ const Config: React.FC<ConfigProps> = ({ option, setOption, handleChageType }) =
   const ref = useRef(null);
 
   const initialValues = {
-    type: type || BASIC_PIE_CHART,
+    type: HS_HEAP_CHART,
     group: group?.length ? (group[0] as GroupValue)?.key : undefined,
     value: value,
     cluster: cluster?.length ? (cluster[0] as GroupValue)?.key : undefined,

@@ -5,8 +5,21 @@ import * as echarts from 'echarts';
 import cx from './HeapModal.less'
 import Title from 'antd/lib/skeleton/Title';
 
+type ListDataProps = {
+  value:number;
+  name:string;
+}
 
-const HeapModal: React.FC<ConfigProps> = ({ echartParams, isListView, name, dataTotal, xData: _xData, listData }) => {
+type HeapModalProps = {
+  echartParams: any;
+  isListView: boolean;
+  name: string;
+  dataTotal: number; 
+  xData: any;
+  listData: ListDataProps[];
+}
+
+const HeapModal: React.FC<HeapModalProps> = ({ echartParams, isListView, name, dataTotal, xData: _xData, listData }) => {
   const id = 'hs-heap-model-chart';
   const [modalEchart, setModalEChart] = useState(null);
   // const [modelData,setModelData] = useState(null);

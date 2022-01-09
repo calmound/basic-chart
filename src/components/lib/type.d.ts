@@ -86,3 +86,18 @@ export type TargetModalProps = {
   };
   setTarget: React.Dispatch<React.SetStateAction<{}>>
 }
+export type ScreenModalProps = {
+  option?: OptionValue;
+  setOption?: React.Dispatch<any>;
+}
+
+export type CommonViewProps = {
+  echartData:any;
+  id:number;
+  option:OptionValue;
+  isListView:boolean;
+  isNoData:boolean;
+  name:string;
+  Xdata:any;
+  series:any;
+}
