@@ -1,0 +1,35 @@
+.line {
+  flex: 1;
+  height: 80%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 4px;
+  border: 1px solid #E9EAEC;
+}
+
+.data {
+  display: flex;
+  justify-content: space-around;
+  height: 20%;
+
+  .title {
+    display: flex;
+    flex-direction: column;
+
+    :nth-child(1) {
+      font-size: 48px;
+      font-family: DINAlternate-Bold, DINAlternate;
+      font-weight: bold;
+      color: #041D4D;
+      line-height: 50px;
+    }
+
+    :nth-child(2) {
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #5F6D84;
+      line-height: 24px;
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { Selectors } from 'proxima-sdk/schema/types/models';
 export type GroupValue = {
   key?: string;
   fieldType?: string;
@@ -39,6 +40,11 @@ export type OptionValue = {
   // item-list使用
   dataNumber?: number;
   selectedColumns?: ColumnsValue[];
+  // 堆积柱状图使用
+  screen?: Selectors;
+  checked?: boolean
+  num?: number;
+  sort?: string,
 };
 
 export type CommonOptionProps = {
